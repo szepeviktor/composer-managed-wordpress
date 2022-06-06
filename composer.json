@@ -1,0 +1,70 @@
+{
+  "name": "szepeviktor/composer-managed-wordpress",
+  "description": "Install WordPress by using Composer packages.",
+  "license": "MIT",
+  "require": {
+    "php": "~7.4",
+    "koodimonni/composer-dropin-installer": "^1.4",
+    "roots/wordpress": "^5.9",
+    "timber/timber": "2.x-dev",
+    "wpackagist-plugin/advanced-custom-fields": "^5.12",
+    "wpackagist-plugin/wp-redis": "^1.1"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/szepeviktor/small-project.git"
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "advanced-custom-fields/advanced-custom-fields-pro",
+        "type": "wordpress-plugin",
+        "version": "5.12.2",
+        "require": {
+          "composer/installers": "^2.1",
+          "ffraenz/private-composer-installer": "^5.0"
+        },
+        "dist": {
+          "type": "zip",
+          "url": "https://connect.advancedcustomfields.com/index.php?a=download&p=pro&k={%PLUGIN_ACF_PRO_KEY}&t={%VERSION}"
+        }
+      }
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true,
+      "koodimonni/composer-dropin-installer": true,
+      "roots/wordpress-core-installer": true
+    },
+    "classmap-authoritative": true,
+    "dropin-installer": "copy",
+    "preferred-install": {
+      "*": "dist"
+    }
+  },
+  "extra": {
+    "dropin-paths": {
+      "public/wp-content/mu-plugins/": [
+        "package:szepeviktor/waf4wordpress:core-events/waf4wordpress-core-events.php"
+      ]
+    },
+    "installer-paths": {
+      "public/wp-content/mu-plugins/{$name}/": [
+        "type:wordpress-muplugin"
+      ],
+      "public/wp-content/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "public/wp-content/themes/{$name}/": [
+        "type:wordpress-theme"
+      ]
+    },
+    "wordpress-install-dir": "public/project"
+  }
+}
