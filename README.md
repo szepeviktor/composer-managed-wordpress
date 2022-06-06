@@ -29,11 +29,13 @@ All other files - except `wp-config.php` - should be kept under version control.
 ### Usage
 
 1. Run WordPress core, plugins and theme on PHP 7.4 (as of 2022)
-2. Change the directory name "project" in: `.gitignore`, `composer.json`, `public/index.php`, `wp-cli.yml`
-3. Customize `composer.json` and create documents
-4. Create `.env` if you have purchased plugins
-5. Set GitHub OAuth token if you develop a custom theme or plugins
+1. Set `WP_ENVIRONMENT_TYPE` environment variable
+   (in [PHP-FPM configuration](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/phpfpm-pools/Skeleton-pool.conf) or in `wp-config.php`)
+1. Change the directory name "project" in: `.gitignore`, `composer.json`, `public/index.php`, `wp-cli.yml`
+1. Customize `composer.json` and create documents
+1. Create `.env` if you have purchased plugins
+1. Set GitHub OAuth token if you develop a private theme or plugins
    `composer config github-oauth.github.com "$YOUR_GITHUB_TOKEN"`
-6. Create [`public/wp-config.php`](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/wp-install/wp-config.php)
-7. Issue `composer update --no-dev`
-8. Administer your WordPress installation with [WP-CLI](https://make.wordpress.org/cli/handbook/guides/installing/)
+1. Create [`public/wp-config.php`](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/wp-install/wp-config.php)
+1. Issue `composer update --no-dev`
+1. Administer your WordPress installation with [WP-CLI](https://make.wordpress.org/cli/handbook/guides/installing/)
