@@ -11,7 +11,7 @@ Most of these files are excluded from this repository as they are installed by C
 
 - `/`: root directory with configuration files and documents
 - `vendor/`: dependencies (packages)
-- `public/`: webserver's document root with `index.php` and `wp-config.php`
+- `public/`: webserver's document [root](https://github.com/szepeviktor/RootFiles) with `index.php`, `wp-config.php`, `favicon.ico`
 - `public/$PROJECT_NAME/`: WordPress core
 - `public/wp-content/`: `wp-content` directory
 
