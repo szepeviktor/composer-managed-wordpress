@@ -1,6 +1,15 @@
 <?php
 
-// Disallow core, plugin, theme installation as WordPress is managed by Composer.
+/**
+ * @wordpress-plugin
+ * Plugin Name:     Disallow WordPress management (MU)
+ * Plugin URI:      https://github.com/szepeviktor/debian-server-tools/tree/master/webserver/wordpress
+ * Description:     Disallow core, plugin, theme installation as WordPress is managed by Composer.
+ * Requires PHP:    7.4
+ * Author:          Viktor Szépe
+ * License:         MIT
+ */
+
 add_filter(
     'user_has_cap',
     static function ($capabilities) {
