@@ -29,7 +29,7 @@ All other files - except `public/wp-config.php` - should be kept under version c
 ### Usage
 
 1. Run WordPress core, plugins and theme on PHP 7.4 (as of 2022)
-1. Change the directory name "project" in: `.gitignore`, `composer.json`, `public/index.php`, `wp-cli.yml`
+1. Change the directory name "project" in `.gitignore`, `composer.json`, `public/index.php`, `wp-cli.yml`
 1. Customize `composer.json` and create documents
 1. Create `.env` if you have purchased plugins
 1. Set GitHub OAuth token if you develop a private theme or plugins
@@ -41,6 +41,7 @@ All other files - except `public/wp-config.php` - should be kept under version c
 1. Issue `composer update --no-dev`
 1. Administer your WordPress installation with [WP-CLI](https://make.wordpress.org/cli/handbook/guides/installing/)
    ```bash
+   wp core install --title="WP" --admin_user="myname" --admin_email="user@example.com" --admin_password="12345"
    wp option set home https://example.com
    wp option set siteurl https://example.com/project
    ```
