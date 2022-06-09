@@ -40,3 +40,7 @@ All other files - except `public/wp-config.php` - should be kept under version c
    (in [PHP-FPM configuration](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/phpfpm-pools/Skeleton-pool.conf) or in `public/wp-config.php`)
 1. Issue `composer update --no-dev`
 1. Administer your WordPress installation with [WP-CLI](https://make.wordpress.org/cli/handbook/guides/installing/)
+   ```bash
+   wp option set home https://example.com
+   wp option set siteurl https://example.com/project
+   ```
