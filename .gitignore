@@ -24,7 +24,9 @@ yarn-error.log
 .env.backup
 /public/project/
 /public/wp-config.php
-/public/wp-content/
+/public/wp-content/*
+!/public/wp-content/mu-plugins/
+!/public/wp-content/mu-plugins/_core-disallow-updates.php
 
 # Tests
 .php_cs.cache
