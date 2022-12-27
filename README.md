@@ -15,6 +15,22 @@ Most of these files are excluded from this repository as they are installed by C
 - `public/$PROJECT_NAME/`: WordPress core
 - `public/wp-content/`: `wp-content` directory
 
+```
+vendor/
+UPGRADE.md
+composer.json
+composer.lock
+wp-cli.yml
+public/─┬─index.php (modified)
+        ├─wp-config.php
+        ├─PROJECT_NAME/─┬─index.php
+        │               ├─wp-load.php
+        │               ├─wp-login.php
+        │               ├─wp-admin/
+        │               └─wp-includes/
+        └─wp-content/
+```
+
 ### Package types
 
 - Themes from WordPress.org's theme directory through wpackagist
@@ -28,14 +44,14 @@ All other files - except `public/wp-config.php` - should be kept under version c
 
 ### Usage
 
-1. Run WordPress core, plugins and theme on PHP 7.4 (as of 2022)
+1. Run WordPress core, plugins and theme on PHP 7.4 (as of 2023)
 1. Change the directory name "project" in `.gitignore`, `composer.json`, `public/index.php`, `wp-cli.yml`
 1. Customize `composer.json` and create documents
 1. Create `.env` if you have purchased plugins
 1. Set GitHub OAuth token if you develop a private theme or plugins
    `composer config github-oauth.github.com "$YOUR_GITHUB_TOKEN"`
 1. Create [`public/wp-config.php`](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/wp-install/wp-config.php)
-   including `WP_CONTENT_DIR` and `WP_CONTENT_URL` pointing to `public/wp-content`
+   including  `WP_CONTENT_DIR` and `WP_CONTENT_URL` pointing to `public/wp-content`, and loading `vendor/autoload.php`
 1. Set `WP_ENVIRONMENT_TYPE` environment variable
    (in [PHP-FPM configuration](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/phpfpm-pools/Skeleton-pool.conf) or in `public/wp-config.php`)
 1. Issue `composer update --no-dev`
