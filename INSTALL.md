@@ -18,7 +18,14 @@ wp theme delete twentytwentythree
 ALTER TABLE `wp_posts` ADD fulltext(`post_title`);
 ```
 
-#### Settings
+### WP-Cron
+
+1. Disable web-based cron as it runs on PHP-FPM
+1. Run WP-Cron from a Linux cron job
+   https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/wp-install/wp-cron-cli.sh
+1. WordPress has no built-in queues (immediate background jobs)
+
+### Settings
 
 - General Settings
 - Writing Settings
@@ -48,14 +55,14 @@ There are many other steps. Please see and edit [`deploy-receiver.sh`](/deploy-r
   composer global require --update-no-dev php-parallel-lint/php-parallel-lint
   ```
 - Generate an SSH deploy key: `ssh-keygen -t ed25519`
-  Add the public part to GitHub Actions Deploy keys (no write access)
-  Clone the repository in `/home/$USER/website/code`: `git clone https://github.com/org-name/repository-name.git .`
-  Connect manually: `git fetch origin`
+- Add the public part to GitHub Actions Deploy keys (no write access)
+- Clone the repository in `/home/$USER/website/code`: `git clone https://github.com/org-name/repository-name.git .`
+- Connect manually: `git fetch origin`
 - Add own SSH key to user: `editor ~/.ssh/authorized_keys`
   ```
   restrict,command="/home/$USER/website/deploy-receiver.sh" ssh-ed25519 AAAA...
   ```
-- Set up GitHub Actions secrets for each environment, match branch names to environments, e.g. staging, production
+- Set up GitHub Actions secrets for each environment, match git branch names to environments, e.g. staging, production
   ```ini
   PROD_CD_SSH_KNOWN_HOSTS_B64
   PROD_CD_SSH_KEY_B64
