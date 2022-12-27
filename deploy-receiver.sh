@@ -5,6 +5,7 @@
 # VERSION       :0.3.0
 # DOCS          :https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/Continuous-integration-Continuous-delivery.md
 # DEPENDS       :apt-get install grepcidr jq libpng-dev php7.4-fpm
+# DEPENDS2      :php-cachetool php-wpcli
 # SECRET        :*_CD_SSH_KNOWN_HOSTS_B64
 # SECRET        :*_CD_SSH_KEY_B64
 # SECRET        :*_CD_SSH_USER_AT_HOST
@@ -177,7 +178,7 @@ Deploy()
         # Update everything
         timeout 60 composer update --no-progress --no-dev
         # Update only the theme
-#        timeout 60 composer update --no-progress --no-dev artmedic/artmedic-2022
+#        timeout 60 composer update --no-progress --no-dev org-name/repository-name
 
         # Verify WordPress installation
         wp core verify-checksums
@@ -185,9 +186,9 @@ Deploy()
 
         # Display theme version
         echo -n "Theme package version: "
-        composer show --format=json artmedic/artmedic-2022 | jq -r '."versions"[0]'
+        composer show --format=json org-name/repository-name | jq -r '."versions"[0]'
         echo -n "Theme version: "
-        wp eval 'var_dump(\Artmedic\Theme2\Theme::VERSION);'
+        wp eval 'var_dump(\Company\ThemeName\Theme::VERSION);'
 
         # Reset OPcache
         cachetool opcache:reset
@@ -203,7 +204,7 @@ Deploy()
 
         # Email notification
         echo "All is well: https://github.com/${CI_PROJECT_PATH}/commit/${COMMIT}" \
-            | s-nail -s "[${CI_PROJECT_PATH}] Deployment complete" admin@szepe.net
+            | mail -s "[${CI_PROJECT_PATH}] Deployment complete" admin@szepe.net
 
         wp eval 'echo admin_url(), PHP_EOL;'
         echo "OK."

@@ -43,6 +43,7 @@ ALTER TABLE `wp_posts` ADD fulltext(`post_title`);
 :bulb: There are many other steps. Please see and edit [`deploy-receiver.sh`](/deploy-receiver.sh).
 
 - Install Debian packages: `grepcidr jq libpng-dev php7.4-fpm`
+- Install [WP-CLI](https://github.com/szepeviktor/debian-server-tools/blob/master/debian-setup/packages/php-wpcli)
 - Install [cachetool](https://github.com/szepeviktor/debian-server-tools/blob/master/debian-setup/packages/php-cachetool)
 - Configure cachetool: `editor ~/.cachetool.yml`
   ```yaml
