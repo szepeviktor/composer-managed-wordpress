@@ -1,4 +1,4 @@
-# WordPress installations migration
+# Migration of WordPress installations
 
 ### Clone Staging to Production
 
@@ -12,7 +12,7 @@ Please see [Production-website.md](https://github.com/szepeviktor/debian-server-
 #### Changing domain name
 
 ```bash
-wp search-replace --precise --recurse-objects --all-tables-with-prefix ...
+wp search-replace --precise --recurse-objects --all-tables-with-prefix "OLD" "NEW"
 ```
 
 Replace items in this order.

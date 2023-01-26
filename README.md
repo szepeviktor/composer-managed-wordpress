@@ -50,7 +50,7 @@ All other files - except `public/wp-config.php` - should be kept under version c
 1. Create `.env` if you have purchased plugins
 1. Set GitHub OAuth token if you develop a private theme or plugins
    `composer config github-oauth.github.com "$YOUR_GITHUB_TOKEN"`
-1. Create [`public/wp-config.php`](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/wp-install/wp-config.php)
+1. Create [`public/wp-config.php`](https://github.com/szepeviktor/wordpress-website-lifecycle/blob/master/wp-config/wp-config.php)
    including  `WP_CONTENT_DIR` and `WP_CONTENT_URL` pointing to `public/wp-content`, and loading `vendor/autoload.php`
 1. Set `WP_ENVIRONMENT_TYPE` environment variable
    (in [PHP-FPM configuration](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/phpfpm-pools/Skeleton-pool.conf) or in `public/wp-config.php`)
