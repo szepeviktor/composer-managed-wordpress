@@ -6,6 +6,7 @@
     "php": "~7.4",
     "johnpbloch/wordpress": "^5.9",
     "koodimonni/composer-dropin-installer": "^1.4",
+    "szepeviktor/sentencepress": "^0.1",
     "timber/timber": "2.x-dev",
     "wpackagist-plugin/advanced-custom-fields": "^5.12",
     "wpackagist-plugin/wp-redis": "^1.1"
