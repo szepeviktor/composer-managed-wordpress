@@ -184,6 +184,9 @@ Deploy()
         wp core verify-checksums
         wp plugin verify-checksums --all --strict
 
+        # Check required core version of plugins
+        wp eval 'foreach(get_option("active_plugins") as $p)if(version_compare(get_plugin_data(WP_PLUGIN_DIR."/".$p)["RequiresWP"],get_bloginfo("version"),">")){error_log("Incompatible plugin version:".$p);exit(10);}'
+
         # Display theme version
         echo -n "Theme package version: "
         composer show --format=json org-name/repository-name | jq -r '."versions"[0]'
