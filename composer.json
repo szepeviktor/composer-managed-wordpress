@@ -1,72 +1,75 @@
 {
-  "name": "szepeviktor/composer-managed-wordpress",
-  "description": "Install WordPress by using Composer packages.",
-  "license": "MIT",
-  "require": {
-    "php": "~7.4",
-    "johnpbloch/wordpress": "^5.9",
-    "koodimonni/composer-dropin-installer": "^1.4",
-    "szepeviktor/sentencepress": "^0.1",
-    "timber/timber": "2.x-dev",
-    "wpackagist-plugin/advanced-custom-fields": "^5.12",
-    "wpackagist-plugin/wp-redis": "^1.1"
-  },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://wpackagist.org",
-      "only": [
-        "wpackagist-plugin/*",
-        "wpackagist-theme/*"
-      ]
+    "name": "szepeviktor/composer-managed-wordpress",
+    "description": "Install WordPress by using Composer packages.",
+    "license": "MIT",
+    "require": {
+        "php": "~7.4.30",
+        "composer/installers": "^2.2",
+        "johnpbloch/wordpress-core-installer": "^2.0",
+        "koodimonni/composer-dropin-installer": "^1.4",
+        "roots/wordpress-no-content": "^5.9",
+        "szepeviktor/sentencepress": "^0.1",
+        "timber/timber": "2.x-dev",
+        "wpackagist-plugin/advanced-custom-fields": "^6.0",
+        "wpackagist-plugin/wordpress-seo": "^20.1",
+        "wpackagist-plugin/wp-redis": "^1.1"
     },
-    {
-      "type": "vcs",
-      "url": "https://github.com/szepeviktor/small-project.git"
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "advanced-custom-fields/advanced-custom-fields-pro",
-        "type": "wordpress-plugin",
-        "version": "5.12.2",
-        "require": {
-          "composer/installers": "^2.1",
-          "ffraenz/private-composer-installer": "^5.0"
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org",
+            "only": [
+                "wpackagist-plugin/*",
+                "wpackagist-theme/*"
+            ]
         },
-        "dist": {
-          "type": "zip",
-          "url": "https://connect.advancedcustomfields.com/index.php?a=download&p=pro&k={%PLUGIN_ACF_PRO_KEY}&t={%VERSION}"
+        {
+            "type": "vcs",
+            "url": "https://github.com/szepeviktor/small-project.git"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "advanced-custom-fields/advanced-custom-fields-pro",
+                "type": "wordpress-plugin",
+                "version": "6.0.7",
+                "require": {
+                    "composer/installers": "^2.2",
+                    "ffraenz/private-composer-installer": "^5.0"
+                },
+                "dist": {
+                    "type": "zip",
+                    "url": "https://connect.advancedcustomfields.com/index.php?a=download&p=pro&k={%PLUGIN_ACF_PRO_KEY}&t={%VERSION}"
+                }
+            }
         }
-      }
+    ],
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "johnpbloch/wordpress-core-installer": true,
+            "koodimonni/composer-dropin-installer": true
+        },
+        "classmap-authoritative": true,
+        "dropin-installer": "copy",
+        "preferred-install": {
+            "*": "dist"
+        }
+    },
+    "extra": {
+        "dropin-paths": {
+            "public/wp-content/mu-plugins/": [
+                "package:szepeviktor/waf4wordpress:core-events/waf4wordpress-core-events.php"
+            ]
+        },
+        "installer-paths": {
+            "public/wp-content/plugins/{$name}/": [
+                "type:wordpress-plugin"
+            ],
+            "public/wp-content/themes/{$name}/": [
+                "type:wordpress-theme"
+            ]
+        },
+        "wordpress-install-dir": "public/project"
     }
-  ],
-  "config": {
-    "allow-plugins": {
-      "composer/installers": true,
-      "johnpbloch/wordpress-core-installer": true,
-      "koodimonni/composer-dropin-installer": true
-    },
-    "classmap-authoritative": true,
-    "dropin-installer": "copy",
-    "preferred-install": {
-      "*": "dist"
-    }
-  },
-  "extra": {
-    "dropin-paths": {
-      "public/wp-content/mu-plugins/": [
-        "package:szepeviktor/waf4wordpress:core-events/waf4wordpress-core-events.php"
-      ]
-    },
-    "installer-paths": {
-      "public/wp-content/plugins/{$name}/": [
-        "type:wordpress-plugin"
-      ],
-      "public/wp-content/themes/{$name}/": [
-        "type:wordpress-theme"
-      ]
-    },
-    "wordpress-install-dir": "public/project"
-  }
 }

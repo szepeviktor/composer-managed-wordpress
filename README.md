@@ -5,7 +5,7 @@ Almost everything will come from Composer packages, the rest is under version co
 
 Thus the repository of a WordPress installation should barely contain files.
 
-### Directory structure
+## Directory structure
 
 Most of these files are excluded from this repository as they are installed by Composer!
 
@@ -31,7 +31,7 @@ public/─┬─index.php (modified)
         └─wp-content/
 ```
 
-### Package types
+## Package types
 
 - Themes from WordPress.org's theme directory through wpackagist
 - Your [custom theme](https://github.com/timber/starter-theme/tree/2.x) should be developed as a separate package in a repository of its own
@@ -42,7 +42,7 @@ public/─┬─index.php (modified)
 
 All other files - except `public/wp-config.php` - should be kept under version control.
 
-### Usage
+## Usage
 
 1. Run WordPress core, plugins and theme on PHP 7.4 (as of 2023)
 1. Change the directory name "project" in `.gitignore`, `composer.json`, `public/index.php`, `wp-cli.yml`
@@ -61,3 +61,14 @@ All other files - except `public/wp-config.php` - should be kept under version c
    wp option set home https://example.com
    wp option set siteurl https://example.com/project
    ```
+
+## WordPress core installation
+
+These are possible variations.
+
+- **`roots/wordpress-no-content` + `johnpbloch/wordpress-core-installer`**
+- `johnpbloch/wordpress`
+- `repositories.package` with current ZIP file from wordpress.org
+- `roots/wordpress`
+
+Pacakages provided by Roots point to wordpress.org ZIP files and git repositories.
