@@ -1,8 +1,8 @@
 ### Remove default content
 
 ```bash
-wp post delete $(wp post list --name="$(wp eval 'echo sanitize_title( _x( "hello-world", "Default post slug" ) );')" --posts_per_page=1 --format=ids)
-wp post delete $(wp post list --post_type=page --name="$(wp eval 'echo __( "sample-page" );')" --posts_per_page=1 --format=ids)
+wp post delete $(wp post list --name="$(wp eval 'echo sanitize_title(_x("hello-world", "Default post slug"));')" --posts_per_page=1 --format=ids)
+wp post delete $(wp post list --post_type=page --name="$(wp eval 'echo __("sample-page");')" --posts_per_page=1 --format=ids)
 wp comment delete 1
 wp option update blogdescription "Install and manage WordPress with Composer"
 wp plugin uninstall akismet
