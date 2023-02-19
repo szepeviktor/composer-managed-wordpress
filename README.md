@@ -71,4 +71,4 @@ These are possible variations.
 - `repositories.package` with current ZIP file from wordpress.org
 - `roots/wordpress`
 
-Pacakages provided by Roots point to wordpress.org ZIP files and git repositories.
+Packages provided by Roots point to wordpress.org ZIP files and git repositories.

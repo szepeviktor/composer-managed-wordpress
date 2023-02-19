@@ -57,7 +57,7 @@ Onexit()
 
 Get_config()
 {
-    # Configuration file containting PROJECT_PATH, COMMIT_REF_NAME, GIT_WORK_TREE
+    # Configuration file containing PROJECT_PATH, COMMIT_REF_NAME, GIT_WORK_TREE
     DEPLOY_CONFIG_PATH="$(dirname "$0")/${DEPLOY_CONFIG_NAME}"
     if [ ! -r "$DEPLOY_CONFIG_PATH" ]; then
         echo "[ERROR] Unconfigured" 1>&2
