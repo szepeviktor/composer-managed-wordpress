@@ -63,23 +63,20 @@ ALTER TABLE `wp_posts` ADD fulltext(`post_title`);
   ```
   restrict,command="/home/$USER/website/deploy-receiver.sh" ssh-ed25519 AAAA...
   ```
-- Set up GitHub Actions secrets for each environment, match git branch names to environments, e.g. staging, production
+- Set up secrets for each GitHub Environment, add branch limits
+  by matching git branch names to environments, e.g. staging, production
   ```ini
-  PROD_CD_SSH_USER_AT_HOST
-  PROD_CD_SSH_KEY_B64
-  PROD_CD_SSH_KNOWN_HOSTS_B64
-
-  STAGING_CD_SSH_USER_AT_HOST
-  STAGING_CD_SSH_KEY_B64
-  STAGING_CD_SSH_KNOWN_HOSTS_B64
+  CD_SSH_USER_AT_HOST
+  CD_SSH_KEY_B64
+  CD_SSH_KNOWN_HOSTS_B64
   ```
   This is how to get values.
   ```bash
-  # *_CD_SSH_USER_AT_HOST
+  # CD_SSH_USER_AT_HOST
   echo $(id --user --name)@$(hostname --fqdn)
-  # *_CD_SSH_KEY_B64
+  # CD_SSH_KEY_B64
   cat ~/.ssh/id_ed25519 | base64 -w 0; echo
-  # *_CD_SSH_KNOWN_HOSTS_B64
+  # CD_SSH_KNOWN_HOSTS_B64
   ssh-keyscan -p $PORT $HOST | base64 -w 0; echo
   ```
 - Create `/home/$USER/website/deploy-data` on the server

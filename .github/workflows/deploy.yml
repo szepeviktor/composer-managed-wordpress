@@ -1,55 +1,34 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
 name: "Deploy"
 
-on:
-  workflow_dispatch: null
+# Set up GitHub Environments with "Selected branches" limit
+# https://github.com/ORG/REPO/settings/environments
+
+on:  # yamllint disable-line rule:truthy
+    workflow_dispatch:
+        inputs:
+            target_env:
+                description: "Environment to deploy to"
+                type: "environment"
+                required: true
+            db_wipe:
+                description: "Wipe database? (REBOOT/No)"
+                type: "string"
+                required: false
+                default: "No"
+
+permissions: {}
+
+concurrency:
+    group: "${{ github.workflow }}-${{ github.ref }}-deploy-${{ inputs.target_env }}"
+    cancel-in-progress: false
 
 jobs:
-  deploy_to_server:
-    name: "Deploy from ${{ github.ref_name }}"
-    runs-on: "ubuntu-22.04"
-    steps:
-      - name: "Deploy to staging environment"
-        env:
-          CD_SSH_USER_AT_HOST: "${{ secrets.STAGING_CD_SSH_USER_AT_HOST }}"
-          CD_SSH_KEY_B64: "${{ secrets.STAGING_CD_SSH_KEY_B64 }}"
-          CD_SSH_KNOWN_HOSTS_B64: "${{ secrets.STAGING_CD_SSH_KNOWN_HOSTS_B64 }}"
-        if: "${{ env.CD_SSH_USER_AT_HOST != '' && github.ref_name == 'staging' }}"
-        run: |
-          # Create files and directories
-          ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519
-          rm ~/.ssh/id_ed25519.pub
-          # Our server's public key
-          echo "${CD_SSH_KNOWN_HOSTS_B64}" | base64 --decode >>~/.ssh/known_hosts
-          # Project user's SSH private key
-          echo "${CD_SSH_KEY_B64}" | base64 --decode >~/.ssh/id_ed25519
-          # Trigger deployment
-          echo "${{ github.repository }} ${{ github.ref_name }} ${{ github.sha }}" \
-            | ssh -4 -o ConnectionAttempts=3 -o PasswordAuthentication=no -p 22 "${CD_SSH_USER_AT_HOST}"
-
-      - name: "Deploy to PRODUCTION environment"
-        env:
-          CD_SSH_USER_AT_HOST: "${{ secrets.PROD_CD_SSH_USER_AT_HOST }}"
-          CD_SSH_KEY_B64: "${{ secrets.PROD_CD_SSH_KEY_B64 }}"
-          CD_SSH_KNOWN_HOSTS_B64: "${{ secrets.PROD_CD_SSH_KNOWN_HOSTS_B64 }}"
-        if: "${{ env.CD_SSH_USER_AT_HOST != '' && github.ref_name == 'production' }}"
-        run: |
-          # Create files and directories
-          ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519
-          rm ~/.ssh/id_ed25519.pub
-          # Our server's public key
-          echo "${CD_SSH_KNOWN_HOSTS_B64}" | base64 --decode >>~/.ssh/known_hosts
-          # Project user's SSH private key
-          echo "${CD_SSH_KEY_B64}" | base64 --decode >~/.ssh/id_ed25519
-          # Trigger deployment
-          echo "${{ github.repository }} ${{ github.ref_name }} ${{ github.sha }}" \
-            | ssh -4 -o ConnectionAttempts=3 -o PasswordAuthentication=no -p 22 "${CD_SSH_USER_AT_HOST}"
-
-      - name: "Deploy to development environment"
-        if: "${{ github.ref_name != 'staging' && github.ref_name != 'production' }}"
-        run: |
-          echo "::error::We don't have a development server :("
-          exit 1
-
-      - name: "Clean up secrets"
-        run: |
-          rm -f ~/.ssh/id_ed25519 ~/.ssh/known_hosts
+    call_deployment:
+        name: "Deployment"
+        uses: "./.github/workflows/reusable-deployment.yml"
+        with:
+            target_env: "${{ inputs.target_env }}"
+            db_wipe: "${{ inputs.db_wipe }}"
+        secrets: "inherit"

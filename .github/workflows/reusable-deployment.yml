@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: "Deployment"
+
+on:  # yamllint disable-line rule:truthy
+    # Reusable
+    workflow_call:
+        inputs:
+            target_env:
+                type: "string"
+                required: true
+            db_wipe:
+                type: "string"
+                required: true
+        secrets:
+            CD_SSH_USER_AT_HOST:
+                required: true
+            CD_SSH_KEY_B64:
+                required: true
+            CD_SSH_KNOWN_HOSTS_B64:
+                required: true
+
+permissions: {}
+
+concurrency:
+    group: "${{ github.workflow }}-${{ github.ref }}-deployment-${{ inputs.target_env }}"
+    cancel-in-progress: false
+
+jobs:
+    deployment:
+        name: "Deploy from ${{ github.ref_name }} branch to ${{ inputs.target_env }} env"
+        runs-on: "ubuntu-22.04"
+        environment:
+            name: "${{ inputs.target_env }}"
+            url: "${{ vars.URL }}"
+        timeout-minutes: 10
+        steps:
+        -
+            name: "Deploy to ${{ inputs.target_env }} environment"
+            run: |
+                # Create files and directories
+                ssh-keygen -q -t ed25519 -N "" -f ~/.ssh/id_ed25519
+                rm ~/.ssh/id_ed25519.pub
+                # Our server's public key
+                echo "${{ secrets.CD_SSH_KNOWN_HOSTS_B64 }}" | base64 --decode >>~/.ssh/known_hosts
+                # Project user's SSH private key
+                echo "${{ secrets.CD_SSH_KEY_B64 }}" | base64 --decode >~/.ssh/id_ed25519
+                # Trigger deployment
+                echo "${{ github.repository }} ${{ github.ref_name }} ${{ github.sha }} ${{ inputs.db_wipe }}" \
+                    | ssh -4 -o ConnectionAttempts=3 -o PasswordAuthentication=no -p 22 "${{ secrets.CD_SSH_USER_AT_HOST }}"
+        -
+            name: "Clean up secrets"
+            run: |
+                rm -f -r ~/.ssh
