@@ -158,9 +158,9 @@ Deploy()
         # Down!
         if [ -f "$(wp cli param-dump --with-values | jq -r '."path"."current" + "/wp-includes/version.php"')" ]; then
             # Check root pages
-            echo test "$(wp post list --format=count --post_type=page --name=esztetika)" -eq 1
-            echo test "$(wp post list --format=count --post_type=page --name=plasztika)" -eq 1
-            echo test "$(wp post list --format=count --post_type=page --name=gyogyaszat)" -eq 1
+            test "$(wp post list --format=count --post_type=page --name=esztetika)" -eq 1
+            test "$(wp post list --format=count --post_type=page --name=plasztika)" -eq 1
+            test "$(wp post list --format=count --post_type=page --name=gyogyaszat)" -eq 1
             wp maintenance-mode activate
             # Clear caches
             wp cache flush
