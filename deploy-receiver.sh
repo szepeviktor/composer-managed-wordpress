@@ -201,7 +201,8 @@ Deploy()
         npm --prefix="$(wp eval 'echo dirname(get_template_directory());')" run prod
 
         # UP!
-        if [ -z "$(find . -path "*/wp-includes/version.php" -cmin 10)" ]; then
+        # .maintenance file is removed during WordPress core update
+        if [ -z "$(find "$(wp cli param-dump --with-values | jq -r '."path"."current" + "/wp-includes/version.php"')" -cmin -10)" ]; then
             wp maintenance-mode deactivate
         fi
 

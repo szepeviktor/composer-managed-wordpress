@@ -79,6 +79,7 @@ ALTER TABLE `wp_posts` ADD fulltext(`post_title`);
   # CD_SSH_KNOWN_HOSTS_B64
   ssh-keyscan -p $PORT $HOST | base64 -w 0; echo
   ```
+- Add environment URL as variable: `URL`.
 - Create `/home/$USER/website/deploy-data` on the server
   ```ini
   PROJECT_PATH=org-name/repository-name

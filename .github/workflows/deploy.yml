@@ -2,7 +2,7 @@
 
 name: "Deploy"
 
-# Set up GitHub Environments with "Selected branches" limit
+# Set up GitHub Environments with "Selected branches" limit and environment URL as a variable
 # https://github.com/ORG/REPO/settings/environments
 
 on:  # yamllint disable-line rule:truthy
