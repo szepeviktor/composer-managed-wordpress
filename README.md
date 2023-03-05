@@ -5,6 +5,12 @@ Almost everything will come from Composer packages, the rest is under version co
 
 Thus the repository of a WordPress installation should barely contain files.
 
+## Support my work
+
+Please consider sponsoring me monthly if you use my packages in an agency.
+
+[![Sponsor](https://github.com/szepeviktor/.github/raw/master/.github/assets/github-like-sponsor-button.svg)](https://github.com/sponsors/szepeviktor)
+
 ## Directory structure
 
 Most of these files are excluded from this repository as they are installed by Composer!
