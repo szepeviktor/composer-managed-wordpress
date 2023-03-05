@@ -25,7 +25,7 @@
         },
         {
             "type": "vcs",
-            "url": "https://github.com/szepeviktor/small-project.git"
+            "url": "https://github.com/szepeviktor/starter-plugin.git"
         },
         {
             "type": "package",

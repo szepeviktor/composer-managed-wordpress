@@ -36,7 +36,7 @@ public/─┬─index.php (modified)
 - Themes from WordPress.org's theme directory through wpackagist
 - Your [custom theme](https://github.com/timber/starter-theme/tree/2.x) should be developed as a separate package in a repository of its own
 - Plugins from WordPress.org's plugin directory through wpackagist
-- Your [custom plugins](https://github.com/szepeviktor/small-project) should be developed as separate packages
+- Your [custom plugins](https://github.com/szepeviktor/starter-plugin) should be developed as separate packages
 - Purchased plugins can be installed by `ffraenz/private-composer-installer`
 - Must-use plugins and dropins can be installed by `koodimonni/composer-dropin-installer`
 
