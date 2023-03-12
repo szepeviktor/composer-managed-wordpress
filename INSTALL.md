@@ -1,4 +1,4 @@
-### Remove default content
+## Remove default content
 
 ```bash
 wp post delete $(wp post list --name="$(wp eval 'echo sanitize_title(_x("hello-world", "Default post slug"));')" --posts_per_page=1 --format=ids)
@@ -12,20 +12,20 @@ wp theme delete twentytwentytwo
 wp theme delete twentytwentythree
 ```
 
-### Custom index for posts table
+## Add custom database indexes
 
 ```sql
 ALTER TABLE `wp_posts` ADD fulltext(`post_title`);
 ```
 
-### WP-Cron
+## WP-Cron
 
 1. Disable web-based cron as it runs on PHP-FPM
 1. Run WP-Cron from a Linux cron job
    https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/wp-install/wp-cron-cli.sh
 1. WordPress has no built-in queues (immediate background jobs)
 
-### Settings
+## Settings
 
 - General Settings
 - Writing Settings
@@ -34,7 +34,7 @@ ALTER TABLE `wp_posts` ADD fulltext(`post_title`);
 - Permalink Settings
 - WP Mail From
 
-### Continuous delivery (CD)
+## Continuous delivery (CD)
 
 1. Developer starts GitHub Actions workflow
 1. GitHub Actions connects to the server through SSH starting `deploy-receiver.sh`
@@ -88,3 +88,32 @@ ALTER TABLE `wp_posts` ADD fulltext(`post_title`);
   ```
 - Optionally set up Composer authentication: `composer config --global github-oauth.github.com $PERSONAL-ACCESS-TOKEN`
 - Start your first deployment!
+
+## Installing translations
+
+### From wordpress.org
+
+```bash
+wp language plugin install wordpress-seo hu_HU
+```
+
+### From a git repository
+
+```bash
+apt-get install gettext
+man msgfmt
+```
+
+### Exported from translate.wordpress.org
+
+```bash
+TWPORG_URL="https://translate.wordpress.org/projects/wp-plugins/${PLUGIN}/stable/hu/default/export-translations/?format=mo"
+wget -O wp-content/languages/plugins/${PLUGIN}-hu_HU.mo "${TWPORG_URL}"
+wp language plugin is-installed "${PLUGIN}" hu_HU
+```
+
+## List tag-category collision
+
+```bash
+{ wp term list post_tag --field=slug; wp term list category --field=slug; } | sort | uniq -d
+```

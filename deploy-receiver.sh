@@ -187,6 +187,15 @@ Deploy()
         # Check required core version of plugins
         wp eval 'foreach(get_option("active_plugins") as $p)if(version_compare(get_plugin_data(WP_PLUGIN_DIR."/".$p)["RequiresWP"],get_bloginfo("version"),">")){error_log("Incompatible plugin version:".$p);exit(10);}'
 
+        # Trigger theme setup
+        # wp eval '$theme = wp_get_theme("our-theme"); do_action("after_switch_theme", $theme->get("Name"), $theme);'
+        # Fire "deploy" hook
+        wp eval 'do_action("deploy");'
+
+        # Update translations
+        wp language core update
+        wp language plugin update --all
+
         # Display theme version
         echo -n "Theme package version: "
         composer show --format=json org-name/repository-name | jq -r '."versions"[0]'
