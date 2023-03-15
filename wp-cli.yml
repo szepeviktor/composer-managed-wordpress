@@ -1,28 +1,28 @@
-path: public/project
+path: "public/project"
 disabled_commands:
-    - core download
-    - core install
-    - core multisite-convert
-    - core multisite-install
-    - core update
-    - db clean
-    - db create
-    - db drop
-    - db reset
-    - i18n make-json
-    - i18n make-pot
-    - plugin delete
-    - plugin install
-    - plugin uninstall
-    - plugin update
-    - scaffold block
-    - scaffold child-theme
-    - scaffold plugin
-    - scaffold plugin-tests
-    - scaffold post-type
-    - scaffold taxonomy
-    - scaffold theme-tests
-    - scaffold underscores
-    - theme delete
-    - theme install
-    - theme update
+- "core download"
+- "core install"
+- "core multisite-convert"
+- "core multisite-install"
+- "core update"
+- "db clean"
+- "db create"
+- "db drop"
+- "db reset"
+- "i18n make-json"
+- "i18n make-pot"
+- "plugin delete"
+- "plugin install"
+- "plugin uninstall"
+- "plugin update"
+- "scaffold block"
+- "scaffold child-theme"
+- "scaffold plugin"
+- "scaffold plugin-tests"
+- "scaffold post-type"
+- "scaffold taxonomy"
+- "scaffold theme-tests"
+- "scaffold underscores"
+- "theme delete"
+- "theme install"
+- "theme update"
