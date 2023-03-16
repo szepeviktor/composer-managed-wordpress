@@ -215,6 +215,9 @@ Deploy()
             wp maintenance-mode deactivate
         fi
 
+        # Check object cache type
+        # test "$(wp cache type)" == Redis
+
         # Email notification
         echo "All is well: https://github.com/${CI_PROJECT_PATH}/commit/${COMMIT}" \
             | mail -s "[${CI_PROJECT_PATH}] Deployment complete" admin@szepe.net
