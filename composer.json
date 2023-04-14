@@ -1,5 +1,5 @@
 {
-    "name": "szepeviktor/composer-managed-wordpress",
+    "name": "company/composer-managed-wordpress",
     "description": "Install WordPress by using Composer packages.",
     "license": "MIT",
     "require": {
