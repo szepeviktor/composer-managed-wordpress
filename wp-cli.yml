@@ -26,3 +26,5 @@ disabled_commands:
     - "theme delete"
     - "theme install"
     - "theme update"
+server:
+    docroot: "public"
