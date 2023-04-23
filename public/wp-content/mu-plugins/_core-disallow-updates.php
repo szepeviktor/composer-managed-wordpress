@@ -3,9 +3,8 @@
 /**
  * @wordpress-plugin
  * Plugin Name:     Disallow WordPress management (MU)
- * Plugin URI:      https://github.com/szepeviktor/debian-server-tools/tree/master/webserver/wordpress
+ * Plugin URI:      https://github.com/szepeviktor/wordpress-website-lifecycle/blob/master/mu-plugins/_core-disallow-updates.php
  * Description:     Disallow core, plugin, theme installation as WordPress is managed by Composer.
- * Requires PHP:    7.4
  * Author:          Viktor Szépe
  * License:         MIT
  */
