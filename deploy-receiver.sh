@@ -2,7 +2,7 @@
 #
 # Automatic deployment.
 #
-# VERSION       :0.3.0
+# VERSION       :0.5.0
 # DOCS          :https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/Continuous-integration-Continuous-delivery.md
 # DEPENDS       :apt-get install grepcidr jq libpng-dev php7.4-fpm
 # DEPENDS2      :php-cachetool php-wpcli
@@ -170,7 +170,7 @@ Deploy()
         git -c advice.detachedHead=false checkout --force "$COMMIT"
 
         # PHP syntax check
-        "$(composer global config --absolute vendor-dir)/bin/parallel-lint" --exclude vendor .
+        composer global exec -- parallel-lint --exclude vendor .
 
         # Check composer.json
         composer validate --strict
