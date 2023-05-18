@@ -112,7 +112,7 @@ wget -O wp-content/languages/plugins/${PLUGIN}-hu_HU.mo "${TWPORG_URL}"
 wp language plugin is-installed "${PLUGIN}" hu_HU
 ```
 
-## List tag-category collision
+## List tag-category collisions
 
 ```bash
 { wp term list post_tag --field=slug; wp term list category --field=slug; } | sort | uniq -d
