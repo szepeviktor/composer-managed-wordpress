@@ -5,7 +5,7 @@
 # VERSION       :0.5.0
 # DOCS          :https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/Continuous-integration-Continuous-delivery.md
 # DEPENDS       :apt-get install grepcidr jq libpng-dev php7.4-fpm
-# DEPENDS2      :php-cachetool php-wpcli
+# DEPENDS2      :php-wpcli php-cachetool
 # SECRET        :*_CD_SSH_KNOWN_HOSTS_B64
 # SECRET        :*_CD_SSH_KEY_B64
 # SECRET        :*_CD_SSH_USER_AT_HOST
