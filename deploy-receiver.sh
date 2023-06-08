@@ -172,20 +172,25 @@ Deploy()
         # PHP syntax check
         composer global exec -- parallel-lint --exclude vendor .
 
-        # Check composer.json
+        # Check Composer configuration - works only with composer.lock file committed
         composer validate --strict
 
         # Update everything
-        timeout 60 composer update --no-progress --no-dev
+        #timeout 60 composer update --no-progress --no-dev
         # Update only the theme
-#        timeout 60 composer update --no-progress --no-dev org-name/repository-name
+        timeout 60 composer update --no-progress --no-dev org-name/repository-name
 
         # Verify WordPress installation
         wp core verify-checksums
         wp plugin verify-checksums --all --strict
 
+        # Verify options from populate_options()
+        test "$(wp option get users_can_register)" == 0
+        test "$(wp option get admin_email)" == admin@szepe.net
+        test "$(wp option get blog_charset)" == UTF-8
+
         # Check required core version of plugins
-        wp eval 'foreach(get_option("active_plugins") as $p)if(version_compare(get_plugin_data(WP_PLUGIN_DIR."/".$p)["RequiresWP"],get_bloginfo("version"),">")){error_log("Incompatible plugin version:".$p);exit(10);}'
+        wp eval 'foreach(get_option("active_plugins") as $p)if(version_compare(get_plugin_data(WP_PLUGIN_DIR."/".$p)["RequiresWP"],get_bloginfo("version"),">")){error_log("Incompatible plugin version:".$p);exit(33);}'
 
         # Trigger theme setup
         # wp eval '$theme = wp_get_theme("our-theme"); do_action("after_switch_theme", $theme->get("Name"), $theme);'
