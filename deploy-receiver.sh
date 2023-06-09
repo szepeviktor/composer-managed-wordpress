@@ -192,21 +192,25 @@ Deploy()
         # Check object cache type
         test "$(wp cache type)" == Redis
 
-        # Verify options from populate_options()
+        # Verify critical options
         test "$(wp option get users_can_register)" == 0
         test "$(wp option get admin_email)" == admin@szepe.net
         test "$(wp option get blog_charset)" == UTF-8
 
-        # Trigger theme setup
-        #wp eval '$theme = wp_get_theme("our-theme"); do_action("after_switch_theme", $theme->get("Name"), $theme);'
-        # Fire "deploy" hook
-        wp eval 'do_action("deploy");'
+        # Search for ACF Options Page options with default name prefix
+        test -z "$(wp option list --search="options_*" --field=option_name)"
+        test -z "$(wp option list --search="_options_*" --field=option_name)"
 
         # Display theme version
         echo -n "Theme package version: "
         composer show --format=json org-name/repository-name | jq -r '."versions"[0]'
         echo -n "Theme version: "
         wp eval 'echo \Company\ThemeName\Theme::VERSION;'
+
+        # Trigger theme setup
+        #wp eval '$theme = wp_get_theme("our-theme"); do_action("after_switch_theme", $theme->get("Name"), $theme);'
+        # Fire "deploy" hook
+        wp eval 'do_action("deploy");'
 
         # Reset OPcache
         cachetool opcache:reset
@@ -220,7 +224,6 @@ Deploy()
         if [ -z "$(find "$(wp cli param-dump --with-values | jq -r '."path"."current" + "/wp-includes/version.php"')" -cmin -10)" ]; then
             wp maintenance-mode deactivate
         fi
-
 
         wp eval 'echo admin_url(), PHP_EOL;'
     } 9< "$0"
