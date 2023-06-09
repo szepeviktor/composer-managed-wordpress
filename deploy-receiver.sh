@@ -48,36 +48,36 @@ Onexit()
 
     set +e
 
-    if [ "$RET" -ne 0 ]; then
+    if [ "${RET}" -ne 0 ]; then
         echo "COMMAND WITH ERROR: ${BASH_CMD}" 1>&2
     fi
 
-    exit "$RET"
+    exit "${RET}"
 }
 
 Get_config()
 {
     # Configuration file containing PROJECT_PATH, COMMIT_REF_NAME, GIT_WORK_TREE
     DEPLOY_CONFIG_PATH="$(dirname "$0")/${DEPLOY_CONFIG_NAME}"
-    if [ ! -r "$DEPLOY_CONFIG_PATH" ]; then
+    if [ ! -r "${DEPLOY_CONFIG_PATH}" ]; then
         echo "[ERROR] Unconfigured" 1>&2
         exit 1
     fi
 
     # Global
     # shellcheck disable=SC1090
-    source "$DEPLOY_CONFIG_PATH"
+    source "${DEPLOY_CONFIG_PATH}"
 }
 
 Check_config()
 {
     # Check deploy configuration
-    if ! Check_name "$PROJECT_PATH"; then
+    if ! Check_name "${PROJECT_PATH}"; then
         echo "[ERROR] Project path not configured correctly: (${PROJECT_PATH})" 1>&2
         exit 10
     fi
 
-    if ! Check_name "$COMMIT_REF_NAME"; then
+    if ! Check_name "${COMMIT_REF_NAME}"; then
         echo "[ERROR] Branch name not configured correctly: (${COMMIT_REF_NAME})" 1>&2
         exit 11
     fi
@@ -101,7 +101,7 @@ Receive_commit()
     fi
     echo "Project path + branch OK: ${CI_PROJECT_PATH}#${CI_COMMIT_REF_NAME}"
 
-    if ! Check_hash "$CI_COMMIT_SHA"; then
+    if ! Check_hash "${CI_COMMIT_SHA}"; then
         echo "[ERROR] Invalid commit hash: (${CI_COMMIT_SHA})" 1>&2
         exit 21
     fi
@@ -114,22 +114,19 @@ Receive_commit()
 
 Deploy()
 {
-    local COMMIT
-
     # Locked for singleton execution
     {
         flock 9
 
-        COMMIT="$CI_COMMIT_SHA"
-        if ! Check_hash "$COMMIT"; then
-            echo "[ERROR] Invalid commit hash: (${COMMIT})" 1>&2
+        if ! Check_hash "${CI_COMMIT_SHA}"; then
+            echo "[ERROR] Invalid commit hash: (${CI_COMMIT_SHA})" 1>&2
             exit 30
         fi
 
         # Check write permission
-        if [ ! -w "$GIT_WORK_TREE" ]; then
+        if [ ! -w "${GIT_WORK_TREE}" ]; then
             echo "[ERROR] Cannot write to work tree" 1>&2
-            stat "$GIT_WORK_TREE" 1>&2
+            stat "${GIT_WORK_TREE}" 1>&2
             exit 31
         fi
 
@@ -140,7 +137,7 @@ Deploy()
             exit 32
         fi
 
-        cd "$GIT_WORK_TREE"
+        cd "${GIT_WORK_TREE}"
 
         echo "Remotes:"
         git remote -v
@@ -152,12 +149,12 @@ Deploy()
         git remote show origin >/dev/null
         timeout 30 git fetch --prune origin
 
-        ## test "$(git remote get-url origin)" == "$GIT_URL"
+        ## test "$(git remote get-url origin)" == "${GIT_URL}"
         ## test "$(git rev-parse --abbrev-ref HEAD)" == master
 
         # Down!
         if [ -f "$(wp cli param-dump --with-values | jq -r '."path"."current" + "/wp-includes/version.php"')" ]; then
-            # Check root pages
+            # Check special pages
             test "$(wp post list --format=count --post_type=page --name=esztetika)" -eq 1
             test "$(wp post list --format=count --post_type=page --name=plasztika)" -eq 1
             test "$(wp post list --format=count --post_type=page --name=gyogyaszat)" -eq 1
@@ -167,10 +164,7 @@ Deploy()
         fi
 
         echo "Checking out work tree..."
-        git -c advice.detachedHead=false checkout --force "$COMMIT"
-
-        # PHP syntax check
-        composer global exec -- parallel-lint --exclude vendor .
+        git -c advice.detachedHead=false checkout --force "${CI_COMMIT_SHA}"
 
         # Check Composer configuration - works only with composer.lock file committed
         composer validate --strict
@@ -180,39 +174,46 @@ Deploy()
         # Update only the theme
         timeout 60 composer update --no-progress --no-dev org-name/repository-name
 
+        # PHP syntax check
+        composer global exec -- parallel-lint --exclude vendor .
+
         # Verify WordPress installation
         wp core verify-checksums
         wp plugin verify-checksums --all --strict
+
+        # Check required core version of plugins
+        # shellcheck disable=SC2016
+        wp eval 'foreach(get_option("active_plugins") as $p)if(version_compare(get_plugin_data(WP_PLUGIN_DIR."/".$p)["RequiresWP"],get_bloginfo("version"),">")){error_log("Incompatible plugin version:".$p);exit(33);}'
+
+        # Update translations
+        wp language core update
+        wp language plugin update --all
+
+        # Check object cache type
+        test "$(wp cache type)" == Redis
 
         # Verify options from populate_options()
         test "$(wp option get users_can_register)" == 0
         test "$(wp option get admin_email)" == admin@szepe.net
         test "$(wp option get blog_charset)" == UTF-8
 
-        # Check required core version of plugins
-        wp eval 'foreach(get_option("active_plugins") as $p)if(version_compare(get_plugin_data(WP_PLUGIN_DIR."/".$p)["RequiresWP"],get_bloginfo("version"),">")){error_log("Incompatible plugin version:".$p);exit(33);}'
-
         # Trigger theme setup
-        # wp eval '$theme = wp_get_theme("our-theme"); do_action("after_switch_theme", $theme->get("Name"), $theme);'
+        #wp eval '$theme = wp_get_theme("our-theme"); do_action("after_switch_theme", $theme->get("Name"), $theme);'
         # Fire "deploy" hook
         wp eval 'do_action("deploy");'
-
-        # Update translations
-        wp language core update
-        wp language plugin update --all
 
         # Display theme version
         echo -n "Theme package version: "
         composer show --format=json org-name/repository-name | jq -r '."versions"[0]'
         echo -n "Theme version: "
-        wp eval 'var_dump(\Company\ThemeName\Theme::VERSION);'
+        wp eval 'echo \Company\ThemeName\Theme::VERSION;'
 
         # Reset OPcache
         cachetool opcache:reset
 
-        # Build front-end assets
+        # Build theme front-end assets - with theme/ subdirectory
         npm --prefix="$(wp eval 'echo dirname(get_template_directory());')" ci --omit=dev
-        npm --prefix="$(wp eval 'echo dirname(get_template_directory());')" run prod
+        npm --prefix="$(wp eval 'echo dirname(get_template_directory());')" run production
 
         # UP!
         # .maintenance file is removed during WordPress core update
@@ -220,21 +221,14 @@ Deploy()
             wp maintenance-mode deactivate
         fi
 
-        # Check object cache type
-        # test "$(wp cache type)" == Redis
-
-        # Email notification
-        echo "All is well: https://github.com/${CI_PROJECT_PATH}/commit/${COMMIT}" \
-            | mail -s "[${CI_PROJECT_PATH}] Deployment complete" admin@szepe.net
 
         wp eval 'echo admin_url(), PHP_EOL;'
-        echo "OK."
     } 9< "$0"
 }
 
 set -e
 
-trap 'Onexit "$?" "$BASH_COMMAND"' EXIT HUP INT QUIT PIPE TERM
+trap 'Onexit "$?" "${BASH_COMMAND}"' EXIT HUP INT QUIT PIPE TERM
 
 logger -t "Deploy-receiver" "Started from ${SSH_CLIENT%% *}"
 Check_gihub_ci_ip "${SSH_CLIENT%% *}"
@@ -245,4 +239,9 @@ Check_config
 Receive_commit
 Deploy
 
+# Send email notification
+echo "All is well: https://github.com/${CI_PROJECT_PATH}/commit/${CI_COMMIT_SHA}" \
+    | mail -s "[${CI_PROJECT_PATH}] Deployment complete" admin@szepe.net
+
+echo "OK."
 exit 0
