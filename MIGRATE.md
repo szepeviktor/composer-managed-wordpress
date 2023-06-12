@@ -4,10 +4,11 @@
 
 Please see [Production-website.md](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/Production-website.md#migration)
 
-- Remove development `wp_options` -> Option Inspector plugin
+- Remove development `wp_options`, use WP-CLI
 - Delete unused Media files from filesystem and database
-- `wp db optimize`
-- WP-Sweep plugin
+- See `humanmade/orphan-command`
+- Try WP-Sweep plugin
+- Optimize database `wp db optimize`
 
 #### Changing domain name
 
@@ -17,10 +18,10 @@ wp search-replace --precise --recurse-objects --all-tables-with-prefix "OLD" "NE
 
 Replace items in this order.
 
-1. `https://DOMAIN.TLD` (no trailing slash)
-1. `http://DOMAIN.TLD` (no trailing slash)
-1. `/home/PATH/TO/SITE` (no trailing slash)
-1. `EMAIL@ADDRESS.ES` (all addresses)
+1. `https://DOMAIN.TLD` no trailing slash
+1. `http://DOMAIN.TLD` no trailing slash
+1. `/home/PATH/TO/SITE` no trailing slash
+1. `EMAIL@ADDRESS.ES` all addresses
 1. `DOMAIN.TLD` now only the domain name
 
 And edit constants in `wp-config.php`.
