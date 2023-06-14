@@ -3,14 +3,13 @@
 # Automatic deployment.
 #
 # VERSION       :0.5.0
-# DOCS          :https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/Continuous-integration-Continuous-delivery.md
+# DOCS          :https://github.com/szepeviktor/composer-managed-wordpress
 # DEPENDS       :apt-get install grepcidr jq libpng-dev php7.4-fpm
 # DEPENDS2      :php-wpcli php-cachetool
-# SECRET        :*_CD_SSH_KNOWN_HOSTS_B64
-# SECRET        :*_CD_SSH_KEY_B64
-# SECRET        :*_CD_SSH_USER_AT_HOST
+# SECRET        :CD_SSH_KNOWN_HOSTS_B64
+# SECRET        :CD_SSH_KEY_B64
+# SECRET        :CD_SSH_USER_AT_HOST
 # CONFIG-VAR    :PROJECT_PATH
-# CONFIG-VAR    :COMMIT_REF_NAME
 # CONFIG-VAR    :GIT_WORK_TREE
 
 DEPLOY_CONFIG_NAME="deploy-data"
@@ -57,7 +56,7 @@ Onexit()
 
 Get_config()
 {
-    # Configuration file containing PROJECT_PATH, COMMIT_REF_NAME, GIT_WORK_TREE
+    # Configuration file containing PROJECT_PATH, GIT_WORK_TREE
     DEPLOY_CONFIG_PATH="$(dirname "$0")/${DEPLOY_CONFIG_NAME}"
     if [ ! -r "${DEPLOY_CONFIG_PATH}" ]; then
         echo "[ERROR] Unconfigured" 1>&2
@@ -77,11 +76,6 @@ Check_config()
         exit 10
     fi
 
-    if ! Check_name "${COMMIT_REF_NAME}"; then
-        echo "[ERROR] Branch name not configured correctly: (${COMMIT_REF_NAME})" 1>&2
-        exit 11
-    fi
-
     if [ ! -e "${GIT_WORK_TREE}/.git" ]; then
         echo "[ERROR] Git work tree is not available: (${GIT_WORK_TREE})" 1>&2
         exit 12
@@ -95,8 +89,8 @@ Receive_commit()
     echo "Received:                 '${CI_PROJECT_PATH}#${CI_COMMIT_REF_NAME}@${CI_COMMIT_SHA}'"
 
     # Check commit data
-    if [ "${CI_PROJECT_PATH}/${CI_COMMIT_REF_NAME}" != "${PROJECT_PATH}/${COMMIT_REF_NAME}" ]; then
-        echo "[ERROR] Invalid repository or branch: (${CI_PROJECT_PATH}/${CI_COMMIT_REF_NAME})" 1>&2
+    if [ "${CI_PROJECT_PATH}" != "${PROJECT_PATH}" ]; then
+        echo "[ERROR] Invalid repository: (${CI_PROJECT_PATH})" 1>&2
         exit 20
     fi
     echo "Project path + branch OK: ${CI_PROJECT_PATH}#${CI_COMMIT_REF_NAME}"
@@ -167,15 +161,15 @@ Deploy()
         git -c advice.detachedHead=false checkout --force "${CI_COMMIT_SHA}"
 
         # Check Composer configuration - works only with composer.lock file committed
-        composer validate --strict
+        composer validate --no-interaction --strict
 
         # Update everything
-        #timeout 60 composer update --no-progress --no-dev
+        #timeout 60 composer update --no-interaction --no-progress --no-dev
         # Update only the theme
-        timeout 60 composer update --no-progress --no-dev org-name/repository-name
+        timeout 60 composer update --no-interaction --no-progress --no-dev org-name/repository-name
 
         # PHP syntax check
-        composer global exec -- parallel-lint --exclude vendor .
+        composer global exec --no-interaction -- parallel-lint --exclude vendor .
 
         # Verify WordPress installation
         wp core verify-checksums
@@ -203,7 +197,7 @@ Deploy()
 
         # Display theme version
         echo -n "Theme package version: "
-        composer show --format=json org-name/repository-name | jq -r '."versions"[0]'
+        composer show --no-interaction --format=json org-name/repository-name | jq -r '."versions"[0]'
         echo -n "Theme version: "
         wp eval 'echo \Company\ThemeName\Theme::VERSION;'
 
