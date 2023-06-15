@@ -2,7 +2,7 @@
 #
 # Automatic deployment.
 #
-# VERSION       :0.5.0
+# VERSION       :0.6.0
 # DOCS          :https://github.com/szepeviktor/composer-managed-wordpress
 # DEPENDS       :apt-get install grepcidr jq libpng-dev php7.4-fpm
 # DEPENDS2      :php-wpcli php-cachetool
@@ -144,7 +144,7 @@ Deploy()
         timeout 30 git fetch --prune origin
 
         ## test "$(git remote get-url origin)" == "${GIT_URL}"
-        ## test "$(git rev-parse --abbrev-ref HEAD)" == master
+        ## test "$(git rev-parse --abbrev-ref HEAD)" == branch-name
 
         # Down!
         if [ -f "$(wp cli param-dump --with-values | jq -r '."path"."current" + "/wp-includes/version.php"')" ]; then
