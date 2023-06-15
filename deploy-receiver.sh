@@ -14,7 +14,7 @@
 
 DEPLOY_CONFIG_NAME="deploy-data"
 
-Check_gihub_ci_ip()
+Check_github_ci_ip()
 {
     local IP="$1"
 
@@ -24,7 +24,7 @@ Check_gihub_ci_ip()
 
     if ! grepcidr "${NETWORKS}" <<< "${IP}"; then
         echo "Unknown IP tried to deploy: https://bgp.he.net/ip/${IP}" \
-            | s-nail -s "[deploy] Check_gihub_ci_ip() error" admin@szepe.net
+            | s-nail -s "[deploy] Check_github_ci_ip() error" admin@szepe.net
         echo "Unknown IP tried to deploy: ${IP}" 1>&2
         exit 1
     fi
@@ -228,7 +228,7 @@ set -e
 trap 'Onexit "$?" "${BASH_COMMAND}"' EXIT HUP INT QUIT PIPE TERM
 
 logger -t "Deploy-receiver" "Started from ${SSH_CLIENT%% *}"
-Check_gihub_ci_ip "${SSH_CLIENT%% *}"
+Check_github_ci_ip "${SSH_CLIENT%% *}"
 
 Get_config
 Check_config
