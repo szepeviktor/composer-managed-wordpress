@@ -7,7 +7,7 @@ SUBDIR="project"
 URL="$(wp option get home)"
 
 # Change 'siteurl'
-wp option set siteurl "${URL}/${SUBDIR}"
+wp option update siteurl "${URL}/${SUBDIR}"
 
 # Change URL in database
 wp search-replace --precise --recurse-objects --all-tables-with-prefix "/wp-includes/" "/${SUBDIR}/wp-includes/"

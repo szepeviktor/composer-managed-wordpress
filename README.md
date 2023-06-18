@@ -64,8 +64,8 @@ All other files - except `public/wp-config.php` - should be kept under version c
 1. Administer your WordPress installation with [WP-CLI](https://make.wordpress.org/cli/handbook/guides/installing/)
    ```bash
    wp core install --title="WP" --admin_user="myname" --admin_email="user@example.com" --admin_password="12345"
-   wp option set home https://example.com
-   wp option set siteurl https://example.com/project
+   wp option update home "https://example.com"
+   wp option update siteurl "https://example.com/project"
    ```
 
 ## WordPress core installation
