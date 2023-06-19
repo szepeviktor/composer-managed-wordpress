@@ -199,7 +199,9 @@ Deploy()
         echo -n "Theme package version: "
         composer show --no-interaction --format=json org-name/repository-name | jq -r '."versions"[0]'
         echo -n "Theme version: "
-        wp eval 'echo \Company\ThemeName\Theme::VERSION;'
+        wp eval 'var_dump(wp_get_theme()->get("Version"));'
+        echo -n "Theme version constant: "
+        wp eval 'var_dump(\Company\ThemeName\Theme::VERSION);'
 
         # Trigger theme setup
         #wp eval '$theme = wp_get_theme("our-theme"); do_action("after_switch_theme", $theme->get("Name"), $theme);'
