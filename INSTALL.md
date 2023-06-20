@@ -91,10 +91,14 @@ ALTER TABLE `wp_posts` ADD fulltext(`post_title`);
 
 ## Installing translations
 
+- [Pedro's Translation Tools](https://github.com/pedro-mendonca/Translation-Tools)
+- [Loco Translate](https://localise.biz/wordpress/plugin)
+- [Tiny translation cache](https://github.com/szepeviktor/tiny-cache)
+
 ### From wordpress.org
 
 ```bash
-wp language plugin install wordpress-seo hu_HU
+wp language plugin install plugin-name hu_HU
 ```
 
 ### From a git repository
@@ -107,9 +111,10 @@ man msgfmt
 ### Exported from translate.wordpress.org
 
 ```bash
-TWPORG_URL="https://translate.wordpress.org/projects/wp-plugins/${PLUGIN}/stable/hu/default/export-translations/?format=mo"
-wget -O wp-content/languages/plugins/${PLUGIN}-hu_HU.mo "${TWPORG_URL}"
-wp language plugin is-installed "${PLUGIN}" hu_HU
+PLUGIN_SLUG="plugin-name"
+TWPORG_URL="https://translate.wordpress.org/projects/wp-plugins/${PLUGIN_SLUG}/stable/hu/default/export-translations/?format=mo"
+wget -O wp-content/languages/plugins/${PLUGIN_SLUG}-hu_HU.mo "${TWPORG_URL}"
+wp language plugin is-installed "${PLUGIN_SLUG}" hu_HU
 ```
 
 ## List tag-category collisions
