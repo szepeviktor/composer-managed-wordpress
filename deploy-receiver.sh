@@ -20,9 +20,9 @@ Check_github_ci_ip()
 
     echo "Connecting IP check: ${IP}"
 
-    NETWORKS="$(wget -q -O- https://api.github.com/meta | jq -r '.actions[]')"
+    NETWORKS="$(wget -q -O- https://api.github.com/meta | jq -r '."actions"[]')"
 
-    if ! grepcidr "${NETWORKS}" <<< "${IP}"; then
+    if ! grepcidr "${NETWORKS}" <<<"${IP}"; then
         echo "Unknown IP tried to deploy: https://bgp.he.net/ip/${IP}" \
             | s-nail -s "[deploy] Check_github_ci_ip() error" admin@szepe.net
         echo "Unknown IP tried to deploy: ${IP}" 1>&2
@@ -222,7 +222,7 @@ Deploy()
         fi
 
         wp eval 'echo admin_url(), PHP_EOL;'
-    } 9< "$0"
+    } 9<"$0"
 }
 
 set -e
