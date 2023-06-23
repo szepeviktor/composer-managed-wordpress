@@ -1,16 +1,9 @@
 # See https://github.com/github/gitignore
 
 # OS
-.DS_Store
-Thumbs.db
-
 # IDE and local environment
-Homestead.json
-Homestead.yaml
-/.vscode/
-/.vagrant/
-# JetBrains IDEs
-/.idea/
+# Keep patterns in these categories on your local machine in user home
+#     git config --global core.excludesFile ~/.gitignore
 
 # Packages
 /composer.lock
