@@ -1,12 +1,16 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 
-name: "Spelling"
+name: "Shell scripts"
 
 on:  # yamllint disable-line rule:truthy
-    pull_request: null
+    pull_request:
+        paths:
+        - '**.sh'
     push:
         branches:
         - "master"
+        paths:
+        - '**.sh'
 
 permissions:
     contents: "read"
@@ -16,8 +20,8 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    typos_check:
-        name: "文A Typos check"
+    shellcheck:
+        name: "ShellCheck"
         runs-on: "ubuntu-22.04"
         timeout-minutes: 1
         steps:
@@ -25,5 +29,5 @@ jobs:
             name: "Checkout repository"
             uses: "actions/checkout@v3"
         -
-            name: "Search for misspellings"
-            uses: "crate-ci/typos@master"
+            name: "Run ShellCheck"
+            uses: "ludeeus/action-shellcheck@master"

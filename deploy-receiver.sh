@@ -11,6 +11,7 @@
 # SECRET        :CD_SSH_USER_AT_HOST
 # CONFIG-VAR    :PROJECT_PATH
 # CONFIG-VAR    :GIT_WORK_TREE
+# shellcheck disable=SC2317
 
 DEPLOY_CONFIG_NAME="deploy-data"
 
