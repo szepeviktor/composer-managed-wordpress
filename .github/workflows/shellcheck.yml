@@ -11,6 +11,7 @@ on:  # yamllint disable-line rule:truthy
         - "master"
         paths:
         - '**.sh'
+# Add [skip ci] to commit message to skip CI.
 
 permissions:
     contents: "read"

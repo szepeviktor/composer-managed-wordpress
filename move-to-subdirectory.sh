@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# Moving WordPress core site to a subdirectory.
+# Moving a WordPress installation to a subdirectory.
 #
 
 SUBDIR="project"
 URL="$(wp option get home)"
 
-# Change 'siteurl'
+# Change "siteurl"
 wp option update siteurl "${URL}/${SUBDIR}"
 
 # Change URL in database
@@ -44,7 +44,7 @@ EOF
 cp -v ./index.php ./${SUBDIR}/
 
 # Modify /index.php
-sed -e "s|'/wp-blog-header\\.php'|'/${SUBDIR}/wp-blog-header.php'|" -i ./index.php
+sed -i -e "s#'/wp-blog-header\\.php'#'/${SUBDIR}/wp-blog-header.php'#" ./index.php
 
 # Move files from parent directory
 mv -v ../wp-config.php ./
