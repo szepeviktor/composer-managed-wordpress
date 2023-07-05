@@ -103,12 +103,12 @@ Receive_commit()
     echo "Commit hash OK:           ${CI_COMMIT_SHA}"
 
     echo "Database wipe:            ${CI_DB_WIPE}"
-
-    echo "Starting deployment ..."
 }
 
 Deploy()
 {
+    echo "Starting deployment ..."
+
     # Locked for singleton execution
     {
         flock 9
