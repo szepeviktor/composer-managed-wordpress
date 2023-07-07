@@ -216,6 +216,10 @@ Deploy()
         npm --prefix="$(wp eval 'echo dirname(get_template_directory());')" ci --omit=dev
         npm --prefix="$(wp eval 'echo dirname(get_template_directory());')" run production
 
+        # Remove references to source maps
+        grep -rlZ -- '^//# sourceMappingURL=' "$(wp eval 'echo dirname(get_template_directory());')" \
+            | xargs -0 -r -L1 -- sed -i -e '/^\/\/# sourceMappingURL=\S\+\.map$/d'
+
         # UP!
         # .maintenance file is removed during WordPress core update
         if [ -z "$(find "$(wp cli param-dump --with-values | jq -r '."path"."current" + "/wp-includes/version.php"')" -cmin -10)" ]; then
