@@ -1,4 +1,4 @@
-# Composer managed WordPress
+# Composer managed WordPress GH-link test
 
 You may learn how I install WordPress.
 Almost everything will come from Composer packages, the rest is under version control (git).
