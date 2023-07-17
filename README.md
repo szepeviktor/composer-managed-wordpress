@@ -54,6 +54,7 @@ All other files - except `public/wp-config.php` - should be kept under version c
 1. Change the directory name "project" in `.gitignore`, `composer.json`, `public/index.php`, `wp-cli.yml`
 1. Customize `composer.json` and create documents
 1. Create `.env` if you have purchased plugins
+1. Add [MU plugins](https://github.com/szepeviktor/wordpress-website-lifecycle/tree/master/mu-plugins)
 1. Set GitHub OAuth token if you develop a private theme or plugins
    `composer config github-oauth.github.com "$YOUR_GITHUB_TOKEN"`
 1. Create [`public/wp-config.php`](https://github.com/szepeviktor/wordpress-website-lifecycle/blob/master/wp-config/wp-config.php)
