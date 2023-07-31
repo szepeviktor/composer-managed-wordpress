@@ -18,6 +18,7 @@ yarn-error.log
 /public/project/
 /public/wp-config.php
 /public/wp-content/*
+!/public/wp-content/maintenance.php
 !/public/wp-content/mu-plugins/
 !/public/wp-content/mu-plugins/_core-disallow-updates.php
 
