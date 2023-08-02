@@ -1,3 +1,4 @@
+# Global parameters
 path: "public/project"
 disabled_commands:
     - "core download"
@@ -26,5 +27,9 @@ disabled_commands:
     - "theme delete"
     - "theme install"
     - "theme update"
+skip-plugins:
+    - "whats-running"
+
+# Commands
 server:
     docroot: "public"
