@@ -1,17 +1,12 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 
-name: "Shell scripts"
+name: "Actions"
 
 on:  # yamllint disable-line rule:truthy
-    pull_request:
-        paths:
-        - "**.sh"
+    pull_request: null
     push:
         branches:
         - "master"
-        paths:
-        - "**.sh"
-# Add [skip ci] to commit message to skip CI.
 
 permissions: {}  # yamllint disable-line rule:braces
 
@@ -20,8 +15,8 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    shellcheck:
-        name: "ShellCheck"
+    actionlint:
+        name: "Actionlint"
         runs-on: "ubuntu-22.04"
         timeout-minutes: 1
         steps:
@@ -29,5 +24,7 @@ jobs:
             name: "Checkout repository"
             uses: "actions/checkout@v3"
         -
-            name: "Run ShellCheck"
-            uses: "ludeeus/action-shellcheck@master"
+            name: "Run actionlint"
+            uses: "docker://rhysd/actionlint:latest"
+            with:
+                args: "-color -verbose -shellcheck ''"
