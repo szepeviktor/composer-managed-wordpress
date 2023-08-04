@@ -1,6 +1,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 
 name: "Deploy"
+run-name: "Deploy to ${{ inputs.target_env }}"
 
 # Set up GitHub Environments with "Selected branches" limit and environment URL as a variable
 # https://github.com/ORG/REPO/settings/environments
