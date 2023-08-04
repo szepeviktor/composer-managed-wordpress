@@ -15,6 +15,7 @@ yarn-error.log
 # Application
 .env
 .env.backup
+/public/.well-known/
 /public/project/
 /public/wp-config.php
 /public/wp-content/*
