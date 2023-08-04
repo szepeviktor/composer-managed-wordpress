@@ -1,12 +1,9 @@
 <?php
 
-/**
- * @wordpress-plugin
- * Plugin Name:     Disallow WordPress management (MU)
- * Plugin URI:      https://github.com/szepeviktor/wordpress-website-lifecycle/blob/master/mu-plugins/_core-disallow-updates.php
- * Description:     Disallow core, plugin, theme installation as WordPress is managed by Composer.
- * Author:          Viktor Szépe
- * License:         MIT
+/*
+ * Plugin Name: Disallow core, plugin, theme installation
+ * Description: WordPress is managed by Composer
+ * Plugin URI: https://github.com/szepeviktor/wordpress-website-lifecycle
  */
 
 add_filter(
