@@ -18,6 +18,7 @@
         "koodimonni/composer-dropin-installer": "^1.4",
         "roots/wordpress-no-content": "^5.9",
         "szepeviktor/sentencepress": "^0.2",
+        "szepeviktor/waf4wordpress": "^0.1.0",
         "timber/timber": "2.x-dev",
         "wpackagist-plugin/advanced-custom-fields": "^6.0",
         "wpackagist-plugin/wordpress-seo": "^20.1",
@@ -71,9 +72,6 @@
     },
     "extra": {
         "dropin-paths": {
-            "public/wp-content/mu-plugins/": [
-                "package:szepeviktor/waf4wordpress:core-events/waf4wordpress-core-events.php"
-            ]
         },
         "installer-paths": {
             "public/wp-content/plugins/{$name}/": [
