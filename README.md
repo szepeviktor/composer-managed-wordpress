@@ -50,24 +50,25 @@ All other files - except `public/wp-config.php` - should be kept under version c
 
 ## Usage
 
-1. Run WordPress core, plugins and theme on PHP 7.4 (as of 2023)
-1. Change the directory name "project" in `.gitignore`, `composer.json`, `public/index.php`, `wp-cli.yml`
-1. Customize `composer.json` and create documents
-1. Create `.env` if you have purchased plugins
-1. Add [MU plugins](https://github.com/szepeviktor/wordpress-website-lifecycle/tree/master/mu-plugins)
-1. Set GitHub OAuth token if you develop a private theme or plugins
-   `composer config github-oauth.github.com "$YOUR_GITHUB_TOKEN"`
-1. Create [`public/wp-config.php`](https://github.com/szepeviktor/wordpress-website-lifecycle/blob/master/wp-config/wp-config.php)
-   including  `WP_CONTENT_DIR` and `WP_CONTENT_URL` pointing to `public/wp-content`, and loading `vendor/autoload.php`
-1. Set `WP_ENVIRONMENT_TYPE` environment variable
-   (in [PHP-FPM configuration](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/phpfpm-pools/Skeleton-pool.conf) or in `public/wp-config.php`)
-1. Issue `composer update --no-dev`
-1. Administer your WordPress installation with [WP-CLI](https://make.wordpress.org/cli/handbook/guides/installing/)
-   ```bash
-   wp core install --title="WP" --admin_user="myname" --admin_email="user@example.com" --admin_password="12345"
-   wp option update home "https://example.com"
-   wp option update siteurl "https://example.com/project"
-   ```
+1.  Run WordPress core, plugins and theme on PHP 7.4 (as of 2023)
+1.  Change the directory name "project" in `.gitignore`, `composer.json`, `public/index.php`, `wp-cli.yml`
+1.  Customize `composer.json` and create documents
+1.  Create `.env` if you have purchased plugins
+1.  Add [MU plugins](https://github.com/szepeviktor/wordpress-website-lifecycle/tree/master/mu-plugins)
+1.  Set GitHub OAuth token if you develop a private theme or plugins
+    `composer config github-oauth.github.com "$YOUR_GITHUB_TOKEN"`
+1.  Create [`public/wp-config.php`](https://github.com/szepeviktor/wordpress-website-lifecycle/blob/master/wp-config/wp-config.php)
+    including  `WP_CONTENT_DIR` and `WP_CONTENT_URL` pointing to `public/wp-content`, and loading `vendor/autoload.php`
+1.  Set `WP_ENVIRONMENT_TYPE` environment variable
+    (in [PHP-FPM configuration](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/phpfpm-pools/Skeleton-pool.conf)
+    or in `public/wp-config.php`)
+1.  Issue `composer update --no-dev`
+1.  Administer your WordPress installation with [WP-CLI](https://make.wordpress.org/cli/handbook/guides/installing/)
+    ```bash
+    wp core install --title="WP" --admin_user="myname" --admin_email="user@example.com" --admin_password="12345"
+    wp option update home "https://example.com"
+    wp option update siteurl "https://example.com/project"
+    ```
 
 ## WordPress core installation
 

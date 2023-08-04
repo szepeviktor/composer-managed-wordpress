@@ -163,6 +163,7 @@ Deploy()
 
         # Check Composer configuration - works only with composer.lock file committed
         composer validate --no-interaction --strict
+        #composer validate --no-interaction --strict --no-check-lock
 
         # Update everything
         #timeout 60 composer update --no-interaction --no-progress --no-dev
@@ -178,7 +179,19 @@ Deploy()
 
         # Check required core version of plugins
         # shellcheck disable=SC2016
-        wp eval 'foreach(get_option("active_plugins") as $p)if(version_compare(get_plugin_data(WP_PLUGIN_DIR."/".$p)["RequiresWP"],get_bloginfo("version"),">")){error_log("Incompatible plugin version:".$p);exit(33);}'
+        wp eval '
+            foreach (get_option("active_plugins") as $plugin) {
+            if (
+                version_compare(
+                    get_plugin_data(WP_PLUGIN_DIR."/".$plugin)["RequiresWP"],
+                    get_bloginfo("version"),
+                    ">"
+                )
+            ) {
+                error_log("Incompatible plugin version:".$plugin);
+                exit(33);
+            }
+            '
 
         # Update translations
         wp language core update
