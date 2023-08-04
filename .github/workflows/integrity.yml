@@ -29,7 +29,7 @@ jobs:
         -
             name: "Check file permissions"
             run: |
-                test "$(find ./ -type f -not -path './.git/*' -executable)" = ""
+                test "$(find ./ -type f -not -path './.git/*' -executable)" = "./deploy-receiver.sh"
         -
             # https://github.com/greut/eclint/issues/6
             name: "Check for byte order mark (BOM)"
