@@ -42,10 +42,13 @@ ALTER TABLE `wp_posts` ADD fulltext(`post_title`);
 
 :bulb: There are many other steps. Please see and edit [`deploy-receiver.sh`](/deploy-receiver.sh).
 
--   Install Debian packages: `grepcidr jq libpng-dev php7.4-fpm`
+-   Install Debian packages
+    ```bash
+    apt-get install grepcidr jq libpng-dev php7.4-fpm
+    ```
 -   Install [WP-CLI](https://github.com/szepeviktor/debian-server-tools/blob/master/debian-setup/packages/php-wpcli)
 -   Install [cachetool](https://github.com/szepeviktor/debian-server-tools/blob/master/debian-setup/packages/php-cachetool)
--   Configure cachetool: `editor ~/.cachetool.yml`
+-   Configure cachetool in `~/.cachetool.yml`
     ```yaml
     adapter: "fastcgi"
     fastcgi: "/run/php/php7.4-fpm-$USER.sock"
@@ -55,11 +58,20 @@ ALTER TABLE `wp_posts` ADD fulltext(`post_title`);
     ```bash
     composer global require --update-no-dev php-parallel-lint/php-parallel-lint
     ```
--   Generate an SSH deploy key: `ssh-keygen -t ed25519`
+-   Generate an SSH deploy key
+    ```bash
+    ssh-keygen -t ed25519
+    ```
 -   Add the public part to GitHub Actions Deploy keys (no write access)
--   Clone the repository in `/home/$USER/website/code`: `git clone https://github.com/org-name/repository-name.git .`
--   Connect manually: `git fetch origin`
--   Add the public part to user: `editor ~/.ssh/authorized_keys`
+-   Clone the repository in `/home/$USER/website/code`
+    ```bash
+    git clone https://github.com/ORG-NAME/REPOSITORY-NAME.git .
+    ```
+-   Connect manually
+    ```bash
+    git fetch origin
+    ```
+-   Add the public part to user's authorized keys: `~/.ssh/authorized_keys`
     ```
     restrict,command="/home/$USER/website/deploy-receiver.sh" ssh-ed25519 AAAA...
     ```
@@ -86,7 +98,11 @@ ALTER TABLE `wp_posts` ADD fulltext(`post_title`);
     COMMIT_REF_NAME=production
     GIT_WORK_TREE=/home/$USER/website/code
     ```
--   Optionally set up Composer authentication: `composer config --global github-oauth.github.com $PERSONAL-ACCESS-TOKEN`
+-   Optionally add license keys to `/home/$USER/website/code/.env`
+-   Optionally set up Composer authentication
+    ```bash
+    composer config --global github-oauth.github.com $PERSONAL-ACCESS-TOKEN
+    ```
 -   Start your first deployment!
 
 ## Installing translations
