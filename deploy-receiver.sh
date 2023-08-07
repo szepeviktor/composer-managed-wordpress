@@ -181,15 +181,16 @@ Deploy()
         # shellcheck disable=SC2016
         wp eval '
             foreach (get_option("active_plugins") as $plugin) {
-            if (
-                version_compare(
-                    get_plugin_data(WP_PLUGIN_DIR."/".$plugin)["RequiresWP"],
-                    get_bloginfo("version"),
-                    ">"
-                )
-            ) {
-                error_log("Incompatible plugin version:".$plugin);
-                exit(33);
+                if (
+                    version_compare(
+                        get_plugin_data(WP_PLUGIN_DIR."/".$plugin)["RequiresWP"],
+                        get_bloginfo("version"),
+                        ">"
+                    )
+                ) {
+                    error_log("Incompatible plugin version:".$plugin);
+                    exit(33);
+                }
             }
             '
 
