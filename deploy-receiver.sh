@@ -209,6 +209,9 @@ Deploy()
         test "$(wp option get admin_email)" == admin@szepe.net
         test "$(wp option get blog_charset)" == UTF-8
 
+        # Custom checks
+        #test "$(wp eval 'echo perflab_get_module_settings()["images/webp-uploads"]["enabled"];')" == 1
+
         # Search for ACF Options Page options with default name prefix
         test -z "$(wp option list --search="options_*" --field=option_name)"
         test -z "$(wp option list --search="_options_*" --field=option_name)"

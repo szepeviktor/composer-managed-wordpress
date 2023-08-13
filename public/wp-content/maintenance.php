@@ -9,7 +9,7 @@ header('Retry-After: 10');
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width">
-    <title>In maintenance mode</title>
+    <title>Maintenance</title>
     <style type="text/css">
         html {
             background: #f1f1f1;
