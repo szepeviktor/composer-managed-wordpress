@@ -194,6 +194,9 @@ Deploy()
             }
             '
 
+        # Update database
+        wp core update-db
+
         # Update translations
         wp language core update
         wp language plugin update --all
