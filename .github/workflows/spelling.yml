@@ -1,6 +1,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 
 name: "Spelling"
+# I take care of your fat fingers and ESL mistakes.
 
 on:  # yamllint disable-line rule:truthy
     pull_request: null
@@ -16,13 +17,29 @@ concurrency:
 
 jobs:
     typos_check:
-        name: "文A Typos check"
+        name: "文A Typos"
         runs-on: "ubuntu-22.04"
         timeout-minutes: 1
         steps:
         -
             name: "Checkout repository"
-            uses: "actions/checkout@v3"
+            uses: "actions/checkout@v3.5.3"
         -
             name: "Search for misspellings"
-            uses: "crate-ci/typos@master"
+            env:
+                GH_TOKEN: "${{ github.token }}"
+            # yamllint disable rule:line-length
+            run: |
+                set -o pipefail
+                mkdir -p "${{ runner.temp }}/typos"
+                RELEASE_ASSET_URL="$(
+                    gh api /repos/crate-ci/typos/releases/latest \
+                        --jq '."assets"[] | select(."name" | test("^typos-.+-x86_64-unknown-linux-musl\\.tar\\.gz$")) | ."browser_download_url"'
+                )"
+                wget --secure-protocol=TLSv1_3 --max-redirect=1 --retry-on-host-error --retry-connrefused --tries=3 \
+                    --quiet --output-document=- "${RELEASE_ASSET_URL}" \
+                    | tar -xz -C "${{ runner.temp }}/typos" ./typos
+                "${{ runner.temp }}/typos/typos" --version
+                git ls-files -z -- ':!:public/*.png' \
+                    | xargs -0 -t -- "${{ runner.temp }}/typos/typos" --format json \
+                    | jq --raw-output '"::warning file=\(.path),line=\(.line_num),col=\(.byte_offset)::\"\(.typo)\" should be \"" + (.corrections // [] | join("\" or \"") + "\".")'

@@ -22,9 +22,9 @@ jobs:
         steps:
         -
             name: "Checkout repository"
-            uses: "actions/checkout@v3"
+            uses: "actions/checkout@v3.5.3"
         -
             name: "Run actionlint"
-            uses: "docker://rhysd/actionlint:latest"
+            uses: "docker://rhysd/actionlint:1.6.25"
             with:
                 args: "-color -verbose -shellcheck ''"

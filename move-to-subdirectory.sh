@@ -1,7 +1,9 @@
-#!/bin/bash
 #
 # Moving a WordPress installation to a subdirectory.
 #
+
+# shellcheck disable=SC2317,SC2148
+exit 0
 
 SUBDIR="project"
 URL="$(wp option get home)"
@@ -20,7 +22,7 @@ wp search-replace --precise --recurse-objects --all-tables-with-prefix "/wp-incl
 editor wp-config.php
 
 # Move core to subdir
-xargs -I % mv -v ./% ./${SUBDIR}/ <<"EOF"
+xargs -I % mv -v "./%" "./${SUBDIR}/" <<"EOF"
 wp-admin
 wp-includes
 licenc.txt
@@ -41,7 +43,7 @@ wp-signup.php
 wp-trackback.php
 xmlrpc.php
 EOF
-cp -v ./index.php ./${SUBDIR}/
+cp -v ./index.php "./${SUBDIR}/"
 
 # Modify /index.php
 sed -i -e "s#'/wp-blog-header\\.php'#'/${SUBDIR}/wp-blog-header.php'#" ./index.php
