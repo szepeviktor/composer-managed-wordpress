@@ -7,7 +7,6 @@ on:  # yamllint disable-line rule:truthy
     push:
         branches:
         - "master"
-    workflow_call: null
 
 permissions: {}  # yamllint disable-line rule:braces
 
