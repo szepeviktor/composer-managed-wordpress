@@ -1,7 +1,8 @@
-#!/bin/bash
 #
 # Moving a WordPress installation to a subdirectory.
 #
+
+exit 0
 
 SUBDIR="project"
 URL="$(wp option get home)"
