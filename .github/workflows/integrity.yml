@@ -17,7 +17,7 @@ concurrency:
 jobs:
     call_workflow_integrity:
         name: "Integrity"
-        uses: "szepeviktor/byte-level-care/.github/workflows/integrity.yml@master"
+        uses: "szepeviktor/byte-level-care/.github/workflows/reusable-integrity.yml@master"
         with:
             not-printable-ascii-paths: >-
                 public/
