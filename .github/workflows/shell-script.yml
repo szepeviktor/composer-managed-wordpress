@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 
-name: "Shell scripts"
+name: "Shell script"
 
 on:  # yamllint disable-line rule:truthy
     pull_request:
@@ -11,6 +11,7 @@ on:  # yamllint disable-line rule:truthy
         - "master"
         paths:
         - "**.sh"
+    workflow_call: null
 # Add [skip ci] to commit message to skip CI.
 
 permissions: {}  # yamllint disable-line rule:braces
@@ -27,7 +28,7 @@ jobs:
         steps:
         -
             name: "Checkout repository"
-            uses: "actions/checkout@v3"
+            uses: "actions/checkout@v3.5.3"
         -
             name: "Run ShellCheck"
-            uses: "ludeeus/action-shellcheck@master"
+            uses: "ludeeus/action-shellcheck@2.0.0"
