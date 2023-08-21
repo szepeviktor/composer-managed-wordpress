@@ -19,7 +19,7 @@
         "roots/wordpress-no-content": "^5.9",
         "szepeviktor/sentencepress": "^0.2",
         "szepeviktor/waf4wordpress": "^0.1.0",
-        "timber/timber": "2.x-dev",
+        "timber/timber": "^2.0.0-rc",
         "wpackagist-plugin/advanced-custom-fields": "^6.0",
         "wpackagist-plugin/wordpress-seo": "^20.1",
         "wpackagist-plugin/wp-redis": "^1.1"
