@@ -1,0 +1,115 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: "Back-end"
+
+on:  # yamllint disable-line rule:truthy
+    pull_request: null
+    push:
+        branches:
+        - "master"
+# Add [skip ci] to commit message to skip CI.
+
+permissions: {}  # yamllint disable-line rule:braces
+
+concurrency:
+    group: "${{ github.workflow }}-${{ github.ref }}"
+    cancel-in-progress: true
+
+jobs:
+    syntax_errors:
+        name: "1️⃣ Syntax errors"
+        runs-on: "ubuntu-22.04"
+        timeout-minutes: 5
+        steps:
+        -
+            name: "Set up PHP"
+            uses: "shivammathur/setup-php@2.25.5"
+            with:
+                php-version: "7.4"
+                coverage: "none"
+                tools: "parallel-lint"
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v3.5.3"
+        -
+            name: "Search for invalid complex curly syntax 🐌"
+            run: |
+                ! git grep -e '\${[A-Z_a-z]' -- '*.php' '*.scss'
+        -
+            name: "Check source code for syntax errors"
+            run: "composer exec --no-interaction -- parallel-lint public/"
+
+    static_analysis:
+        name: "3️⃣ Static Analysis"
+        needs:
+        - "syntax_errors"
+        runs-on: "ubuntu-22.04"
+        timeout-minutes: 5
+        steps:
+        -
+            name: "Set up PHP"
+            uses: "shivammathur/setup-php@2.25.5"
+            with:
+                php-version: "7.4"
+                coverage: "none"
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v3.5.3"
+        -
+            name: "Check JSON files"
+            run: |
+                git ls-files --cached -z -- '*.json' \
+                    | xargs -t --null -L 1 -- \
+                        php -r 'json_decode(file_get_contents($argv[1]), null, 512, JSON_THROW_ON_ERROR);'
+        -
+            name: "Validate Composer configuration"
+            run: "composer validate --no-interaction --strict"
+        -
+            name: "Install dependencies"
+            uses: "ramsey/composer-install@2.2.0"
+            with:
+                dependency-versions: "highest"
+        -
+            name: "Check PSR-4 mapping 🐌"
+            run: "composer dump-autoload --optimize --strict-psr"
+        -
+            name: "Check for security vulnerability advisories"
+            run: "composer audit"
+        -
+            # https://github.com/phpstan/phpstan/issues/9475
+            name: "Search for $this typos 🐌"
+            run: |
+                ! git grep --line-number -e '\$this\s*->\s*\$this\|\$\$this' -- ':!:*/back-end.yml'
+        -
+            name: "Perform static analysis"
+            run: |
+                composer exec -- phpstan analyze \
+                    --configuration=vendor/szepeviktor/phpstan-wordpress/extension.neon \
+                    --level=5 \
+                    public/index.php public/wp-content/mu-plugins/
+
+    coding_standards:
+        name: "4️⃣ Coding Standards"
+        needs:
+        - "syntax_errors"
+        runs-on: "ubuntu-22.04"
+        timeout-minutes: 5
+        steps:
+        -
+            name: "Set up PHP"
+            uses: "shivammathur/setup-php@2.25.5"
+            with:
+                php-version: "8.2"
+                coverage: "none"
+                tools: "phpcs,cs2pr"
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v3.5.3"
+        -
+            name: "Install dependencies"
+            uses: "ramsey/composer-install@2.2.0"
+            with:
+                dependency-versions: "highest"
+        -
+            name: "Detect coding standards violations"
+            run: "composer exec -- phpcs -q --report=checkstyle --standard=PSR12 public/wp-content/mu-plugins/ | cs2pr"
