@@ -19,7 +19,7 @@ on:  # yamllint disable-line rule:truthy
                 required: false
                 default: "No"
 
-permissions: {}
+permissions: {}  # yamllint disable-line rule:braces
 
 concurrency:
     group: "${{ github.workflow }}-${{ github.ref }}-deploy-${{ inputs.target_env }}"

@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 
-name: "Actions"
+name: "Workflow"
 
 on:  # yamllint disable-line rule:truthy
     pull_request: null
@@ -24,7 +24,7 @@ jobs:
             name: "Checkout repository"
             uses: "actions/checkout@v3.5.3"
         -
-            name: "Run actionlint"
+            name: "Analyze workflow files"
             uses: "docker://rhysd/actionlint:1.6.25"
             with:
-                args: "-color -verbose -shellcheck ''"
+                args: "-color -verbose -shellcheck="
