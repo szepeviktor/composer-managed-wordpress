@@ -23,9 +23,9 @@ Check_github_ci_ip()
 
     NETWORKS="$(wget -q -O- https://api.github.com/meta | jq -r '."actions"[]')"
 
-    if ! grepcidr "${NETWORKS}" <<<"${IP}"; then
+    if ! grepcidr "${NETWORKS}" <<<"${IP}" >/dev/null; then
         echo "Unknown IP tried to deploy: https://bgp.he.net/ip/${IP}" \
-            | s-nail -s "[deploy] Check_github_ci_ip() error" admin@szepe.net
+            | s-nail -s "[deploy] ${FUNCNAME[0]}() error" admin@szepe.net
         echo "Unknown IP tried to deploy: ${IP}" 1>&2
         exit 1
     fi
