@@ -23,9 +23,9 @@ Check_github_ci_ip()
 
     NETWORKS="$(wget -q -O- https://api.github.com/meta | jq -r '."actions"[]')"
 
-    if ! grepcidr "${NETWORKS}" <<<"${IP}"; then
+    if ! grepcidr "${NETWORKS}" <<<"${IP}" >/dev/null; then
         echo "Unknown IP tried to deploy: https://bgp.he.net/ip/${IP}" \
-            | s-nail -s "[deploy] Check_github_ci_ip() error" admin@szepe.net
+            | s-nail -s "[deploy] ${FUNCNAME[0]}() error" admin@szepe.net
         echo "Unknown IP tried to deploy: ${IP}" 1>&2
         exit 1
     fi
@@ -87,22 +87,22 @@ Receive_commit()
 {
     # Globals
     read -r CI_PROJECT_PATH CI_COMMIT_REF_NAME CI_COMMIT_SHA CI_DB_WIPE
-    echo "Received:                 '${CI_PROJECT_PATH}#${CI_COMMIT_REF_NAME}@${CI_COMMIT_SHA}'"
+    printf '%-27s"%s#%s@%s"\n' "Received:" "${CI_PROJECT_PATH}" "${CI_COMMIT_REF_NAME}" "${CI_COMMIT_SHA}"
 
     # Check commit data
     if [ "${CI_PROJECT_PATH}" != "${PROJECT_PATH}" ]; then
         echo "[ERROR] Invalid repository: (${CI_PROJECT_PATH})" 1>&2
         exit 20
     fi
-    echo "Project path + branch OK: ${CI_PROJECT_PATH}#${CI_COMMIT_REF_NAME}"
+    printf '%-28s%s#%s\n' "Project path + branch OK:" "${CI_PROJECT_PATH}" "${CI_COMMIT_REF_NAME}"
 
     if ! Check_hash "${CI_COMMIT_SHA}"; then
         echo "[ERROR] Invalid commit hash: (${CI_COMMIT_SHA})" 1>&2
         exit 21
     fi
-    echo "Commit hash OK:           ${CI_COMMIT_SHA}"
+    printf '%-28s%s\n' "Commit hash OK:" "${CI_COMMIT_SHA}"
 
-    echo "Database wipe:            ${CI_DB_WIPE}"
+    printf '%-28s%s\n' "Database wipe:" "${CI_DB_WIPE}"
 }
 
 Deploy()
