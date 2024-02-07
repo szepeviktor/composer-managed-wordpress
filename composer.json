@@ -21,7 +21,7 @@
         "szepeviktor/waf4wordpress": "^0.1.0",
         "timber/timber": "^2.0.0-rc",
         "wpackagist-plugin/advanced-custom-fields": "^6.0",
-        "wpackagist-plugin/wordpress-seo": "^21.0",
+        "wpackagist-plugin/wordpress-seo": "^22.0",
         "wpackagist-plugin/wp-redis": "^1.1"
     },
     "require-dev": {
