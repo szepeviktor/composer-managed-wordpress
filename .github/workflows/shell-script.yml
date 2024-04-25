@@ -27,7 +27,7 @@ jobs:
         steps:
         -
             name: "Checkout repository"
-            uses: "actions/checkout@v4.1.2"
+            uses: "actions/checkout@v4.1.4"
         -
             name: "Run ShellCheck"
             uses: "ludeeus/action-shellcheck@2.0.0"
