@@ -24,6 +24,13 @@ Replace items in this order.
 1. `EMAIL@ADDRESS.ES` all addresses
 1. `DOMAIN.TLD` now only the domain name
 
+Flush permalinks and object cache.
+
+```bash
+wp rewrite flush --hard
+wp cache flush
+```
+
 And edit constants in `wp-config.php`.
 
 Web-based search & replace tool.
