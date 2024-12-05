@@ -31,5 +31,7 @@ skip-plugins:
     - "whats-running"
 
 # Commands
+"plugin verify-checksums":
+    exclude: "advanced-custom-fields-pro,wordpress-seo-premium"
 server:
     docroot: "public"
