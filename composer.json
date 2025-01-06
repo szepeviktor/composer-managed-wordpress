@@ -17,7 +17,7 @@
         "johnpbloch/wordpress-core-installer": "^2.0",
         "koodimonni/composer-dropin-installer": "^1.4",
         "roots/wordpress-no-content": "^6.5",
-        "szepeviktor/sentencepress": "^0.2",
+        "szepeviktor/sentencepress": "^0.3",
         "szepeviktor/waf4wordpress": "^0.1.0",
         "timber/timber": "^2.1",
         "wpackagist-plugin/advanced-custom-fields": "^6.2",
