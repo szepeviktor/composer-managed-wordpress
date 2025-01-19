@@ -8,7 +8,7 @@
 
 add_filter(
     'user_has_cap',
-    static function ($capabilities) {
+    static function (array $capabilities): array {
         return array_merge(
             $capabilities,
             [
