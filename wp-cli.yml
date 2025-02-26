@@ -1,5 +1,6 @@
 # Global parameters
 path: "public/project"
+exec: "global $locale; $locale='en_US';"
 disabled_commands:
     - "core download"
     - "core install"
