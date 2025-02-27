@@ -25,6 +25,7 @@
         "wpackagist-plugin/wp-redis": "^1.4"
     },
     "require-dev": {
+        "johnbillion/query-monitor": "^3.17",
         "squizlabs/php_codesniffer": "^3.9",
         "szepeviktor/phpstan-wordpress": "^1.3"
     },
