@@ -29,6 +29,8 @@ disabled_commands:
     - "theme update"
 skip-plugins:
     - "whats-running"
+#exec: |
+#  global $locale; $locale='en_US';
 
 # Commands
 "plugin verify-checksums":
