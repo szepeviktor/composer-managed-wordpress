@@ -1,8 +1,19 @@
 <?php
 
+require_once ABSPATH . WPINC . '/functions.php';
+
 header('Retry-After: 10');
 
 // Copy of https://developer.wordpress.org/reference/functions/_default_wp_die_handler/
+// wp_die(
+//     '<h1>In maintenance mode</h1><p>Will come back online in seconds.</p>',
+//     'Maintenance',
+//     ['response' => 503]
+// );
+
+status_header(503);
+header('Content-Type: text/html; charset=utf-8');
+nocache_headers();
 
 ?>
 <!DOCTYPE html>
@@ -120,6 +131,3 @@ header('Retry-After: 10');
     <p>Will come back online in seconds.</p>
 </body>
 </html>
-<?php
-
-wp_die('', 'Maintenance', ['response' => 503]);
