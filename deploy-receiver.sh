@@ -2,7 +2,7 @@
 #
 # Automatic deployment.
 #
-# VERSION       :0.6.0
+# VERSION       :0.6.1
 # DOCS          :https://github.com/szepeviktor/composer-managed-wordpress
 # DEPENDS       :apt-get install grepcidr jq libpng-dev php7.4-fpm
 # DEPENDS2      :php-wpcli php-cachetool
@@ -265,7 +265,7 @@ Deploy
 
 # Send email notification
 echo "All is well: https://github.com/${CI_PROJECT_PATH}/commit/${CI_COMMIT_SHA}" \
-    | mail -s "[${CI_PROJECT_PATH}] Deployment complete" admin@szepe.net
+    | s-nail -s "[${CI_PROJECT_PATH}] Deployment complete" admin@szepe.net
 
 echo "OK."
 exit 0
