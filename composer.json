@@ -20,9 +20,10 @@
         "szepeviktor/sentencepress": "^0.4",
         "szepeviktor/waf4wordpress": "^0.1.0",
         "timber/timber": "^2.1",
-        "wpackagist-plugin/advanced-custom-fields": "^6.2",
+        "wpackagist-plugin/duplicate-post": "^4.5",
         "wpackagist-plugin/wordpress-seo": "^24.2",
-        "wpackagist-plugin/wp-redis": "^1.4"
+        "wpackagist-plugin/wp-redis": "^1.4",
+        "wpengine/advanced-custom-fields-pro": "^6.2"
     },
     "require-dev": {
         "johnbillion/query-monitor": "^3.17",
@@ -43,20 +44,8 @@
             "url": "https://github.com/szepeviktor/starter-plugin.git"
         },
         {
-            "type": "package",
-            "package": {
-                "name": "advanced-custom-fields/advanced-custom-fields-pro",
-                "type": "wordpress-plugin",
-                "version": "6.2.9",
-                "require": {
-                    "composer/installers": "^2.2",
-                    "ffraenz/private-composer-installer": "^5.0"
-                },
-                "dist": {
-                    "type": "zip",
-                    "url": "https://connect.advancedcustomfields.com/index.php?a=download&p=pro&k={%PLUGIN_ACF_PRO_KEY}&t={%VERSION}"
-                }
-            }
+            "type":"composer",
+            "url":"https://connect.advancedcustomfields.com"
         }
     ],
     "config": {
