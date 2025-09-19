@@ -41,6 +41,7 @@ Check_hash()
     [[ "$1" =~ ^[0-9a-f]{40}$ ]]
 }
 
+# shellcheck disable=SC2329
 Onexit()
 {
     local -i RET="$1"
