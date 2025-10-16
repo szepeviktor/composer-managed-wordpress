@@ -33,6 +33,8 @@ skip-plugins:
 #    global $locale; $locale='en_US';
 
 # Commands
+apache_modules:
+    - "mod_rewrite"
 "plugin verify-checksums":
     exclude: "advanced-custom-fields-pro,wordpress-seo-premium"
 server:
