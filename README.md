@@ -50,9 +50,9 @@ All other files - except `public/wp-config.php` - should be kept under version c
 
 ## Usage
 
-1.  Run WordPress core, plugins and theme on PHP 7.4
-    ([as of 2025](https://johnbillion.github.io/wp-stats/php.html)),
-    upgrade to PHP 8.1 in 2026
+1.  Run [WordPress core](https://github.com/WordPress/wordpress-develop/blob/trunk/.version-support-php.json),
+    plugins and theme on PHP 8.1
+    ([as of 2026](https://johnbillion.github.io/wp-stats/php.html))
 1.  Change the directory name "project" in `.gitignore`, `composer.json`, `public/index.php`, `wp-cli.yml`
 1.  Customize `composer.json` and create documents
 1.  Create `.env` if you have purchased plugins

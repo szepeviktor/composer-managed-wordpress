@@ -44,14 +44,14 @@ ALTER TABLE `wp_posts` ADD fulltext(`post_title`);
 
 -   Install Debian packages
     ```bash
-    apt-get install grepcidr jq libpng-dev php7.4-fpm
+    apt-get install grepcidr jq libpng-dev php8.1-fpm
     ```
 -   Install [WP-CLI](https://github.com/szepeviktor/debian-server-tools/blob/master/debian-setup/packages/php-wpcli)
 -   Install [cachetool](https://github.com/szepeviktor/debian-server-tools/blob/master/debian-setup/packages/php-cachetool)
 -   Configure cachetool in `~/.cachetool.yml`
     ```yaml
     adapter: "fastcgi"
-    fastcgi: "/run/php/php7.4-fpm-$USER.sock"
+    fastcgi: "/run/php/php8.1-fpm-$USER.sock"
     temp_dir: "/home/$USER/website/tmp"
     ```
 -   Install `php-parallel-lint/php-parallel-lint` globally (on user level)

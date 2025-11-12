@@ -4,7 +4,7 @@
 #
 # VERSION       :0.6.1
 # DOCS          :https://github.com/szepeviktor/composer-managed-wordpress
-# DEPENDS       :apt-get install grepcidr jq libpng-dev php7.4-fpm
+# DEPENDS       :apt-get install grepcidr jq libpng-dev php8.1-fpm
 # DEPENDS2      :php-wpcli php-cachetool
 # SECRET        :CD_SSH_KNOWN_HOSTS_B64
 # SECRET        :CD_SSH_KEY_B64

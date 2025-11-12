@@ -25,7 +25,7 @@ jobs:
             name: "Set up PHP"
             uses: "shivammathur/setup-php@2.35.4"
             with:
-                php-version: "7.4"
+                php-version: "8.1"
                 coverage: "none"
                 tools: "parallel-lint"
         -
@@ -50,7 +50,7 @@ jobs:
             name: "Set up PHP"
             uses: "shivammathur/setup-php@2.35.4"
             with:
-                php-version: "7.4"
+                php-version: "8.1"
                 coverage: "none"
         -
             name: "Checkout repository"
@@ -102,7 +102,7 @@ jobs:
             name: "Set up PHP"
             uses: "shivammathur/setup-php@2.35.4"
             with:
-                php-version: "7.4"
+                php-version: "8.1"
                 coverage: "none"
                 tools: "phpcs,cs2pr"
         -
