@@ -23,7 +23,7 @@ jobs:
         steps:
         -
             name: "Set up PHP"
-            uses: "shivammathur/setup-php@2.35.4"
+            uses: "shivammathur/setup-php@2.36.0"
             with:
                 php-version: "8.1"
                 coverage: "none"
@@ -48,7 +48,7 @@ jobs:
         steps:
         -
             name: "Set up PHP"
-            uses: "shivammathur/setup-php@2.35.4"
+            uses: "shivammathur/setup-php@2.36.0"
             with:
                 php-version: "8.1"
                 coverage: "none"
@@ -100,7 +100,7 @@ jobs:
         steps:
         -
             name: "Set up PHP"
-            uses: "shivammathur/setup-php@2.35.4"
+            uses: "shivammathur/setup-php@2.36.0"
             with:
                 php-version: "8.1"
                 coverage: "none"
