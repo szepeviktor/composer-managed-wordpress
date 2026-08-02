@@ -36,13 +36,6 @@ wp cache flush
 
 And edit constants in `wp-config.php`.
 
-Web-based search & replace tool.
-
-```shell
-wget -O srdb.php https://github.com/interconnectit/Search-Replace-DB/raw/master/index.php
-wget https://github.com/interconnectit/Search-Replace-DB/raw/master/srdb.class.php
-```
-
 ## Clone Production to Staging
 
 Change links to the staging domain.
@@ -78,6 +71,7 @@ Flush rewrite rules and object cache.
 ```shell
 wp rewrite flush
 wp cache flush
+#wp yoast index --reindex
 ```
 
 ## Moving settings from parent theme to child theme
